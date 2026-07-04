@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "authors": {
+    "ContractBlockProfile.cs": "CptArthur",
+    "FactionIconProfile.cs": "MeridiusIX",
+    "MissionProfile.cs": "CptArthur",
+    "PrefabGravityProfile.cs": "MeridiusIX",
+    "SafezoneProfile.cs": "MeridiusIX",
+    "ShipyardProfile.cs": "MeridiusIX",
+    "StoreProfile.cs": "MeridiusIX",
+    "SuitUpgradesProfile.cs": "MeridiusIX"
+  }
+}

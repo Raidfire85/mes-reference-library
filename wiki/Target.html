@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Target &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Target</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>Target Profiles in RivalAI allow you to specify a set of rules that are followed when combat-based behaviors are acquiring targets near-by. You can attach your Target Profiles to any Behavior Profile by adding a <code>[TargetData:Value]</code> tag to the Behavior and replace <code>Value</code> with the SubtypeId of your Target Profile. Example:</p>
+<p><code>[TargetData:RAI-ExampleTargetProfile]</code></p>
+<p>It is important that you use a unique SubtypeId for each Target Profile you create, otherwise they may not work correctly.</p>
+<p>You can also provide a secondary Target Profile that is used when the NPC target is switched by a Trigger/Action event such as <code>Damage</code>, <code>Command</code>, or <code>TurretTarget</code>. This type of target is consider a <strong>Target Override</strong> in RivalAI, and once the target is lost or a refresh occurs, the target will switch back to the target defined by the <code>TargetData</code> tag. Override targets are not limited by entity type, so they can target Players, Grids, or Blocks. To specify an Override Target Profile, use the tag below:</p>
+<p><code>[OverrideTargetData:RAI-ExampleOverrideTargetProfile]</code></p>
+<p>Here's an example of how a Target Profile Definition is setup:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>&lt;?xml version="1.0"?&gt;
+&lt;Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;EntityComponents&gt;
+
+    &lt;EntityComponent xsi:type="MyObjectBuilder_InventoryComponentDefinition"&gt;
+      &lt;Id&gt;
+          &lt;TypeId&gt;Inventory&lt;/TypeId&gt;
+          &lt;SubtypeId&gt;RAI-ExampleTargetProfile-PirateHunter&lt;/SubtypeId&gt;
+      &lt;/Id&gt;
+      &lt;Description&gt;
+
+      [RivalAI Target]
+      
+      [UseCustomTargeting:true]
+      [Target:Block]
+      [BlockTargets:All]
+      
+      [MaxDistance:10000]
+      
+      [MatchAllFilters:OutsideOfSafezone]
+      [MatchAllFilters:Owner]
+      [MatchAllFilters:Relation]
+      [MatchAllFilters:Faction]
+      [GetTargetBy:ClosestDistance]
+      
+      [Owners:Player]
+      [Owners:NPC]
+      [Relations:Enemy]
+      [FactionTargets:SPRT]
+      [PrioritizeSpecifiedFactions:true]
+
+      &lt;/Description&gt;
+      
+    &lt;/EntityComponent&gt;
+
+  &lt;/EntityComponents&gt;
+&lt;/Definitions&gt;
+</code></pre></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseCustomTargeting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseCustomTargeting:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the behavior should use your Target Profile. If <code>false</code>, it will use default parameters based on the Behavior Type.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Target:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify what sort of entity target the behavior should go after.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Player</code><br><code>Block</code><br><code>Grid</code><br><code>PlayerAndBlock</code><br><code>PlayerAndGrid</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">BlockTargets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BlockTargets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more types of Block (if <code>Target</code> is set to Block) that will be targeted specifically.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>All</code><br><code>Antennas</code><br><code>Beacons</code><br><code>Containers</code><br><code>Controllers</code><br><code>Guns</code><br><code>JumpDrives</code><br><code>Mechanical</code><br><code>Medical</code><br><code>NanoBots</code><br><code>Power</code><br><code>Production</code><br><code>RivalAi</code><br><code>Shields</code><br><code>Thrusters</code><br><code>Tools</code><br><code>Turrets</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TimeUntilTargetAcquisition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TimeUntilTargetAcquisition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the time (in seconds) that it takes for the behavior to acquire a target if the behavior has no current target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Integer Greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseTargetRefresh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseTargetRefresh:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the behavior should attempt to acquire a new target after some time, even if the behavior has a valid target already.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TimeUntilNextRefresh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TimeUntilNextRefresh:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the time (in seconds) that it takes for the behavior to acquire a new target if <code>UseTargetRefresh</code> is set to <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Integer Greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TimeUntilNextEvaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TimeUntilNextEvaluation:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the time (in seconds) that it takes for the behavior to check the current target to ensure it still meets the requirements of the settings and filters in this Target Profile.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Integer Greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify the distance from the behavior owner that is checked for targets.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Greater Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxExistingTargetDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxExistingTargetDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify the distance that an existing valid target must be outside before a new target is selected. If this value is not provided, then it uses the same value as <code>MaxDistance</code>
+</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Greater Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MatchAllFilters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MatchAllFilters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more extra conditions that must be met when acquiring or evaluating a target. If any of the specified conditions under this tag are not met, the target is not considered valid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Altitude</code><br><code>Broadcasting</code><br><code>Faction</code><br><code>Gravity</code><br><code>IgnoreStealthDrive</code><br><code>LineOfSight</code><br><code>MovementScore</code><br><code>Name</code><br><code>OutsideOfSafezone</code><br><code>Owner</code><br><code>PlayerControlled</code><br><code>PlayerKnownLocation</code><br><code>Powered</code><br><code>Relation</code><br><code>Shielded</code><br><code>Speed</code><br><code>Static</code><br><code>TargetValue</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MatchAnyFilters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MatchAnyFilters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more extra conditions that must be met when acquiring or evaluating a target. If any of the specified conditions under this tag are met, the target is considered valid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Altitude</code><br><code>Broadcasting</code><br><code>Faction</code><br><code>Gravity</code><br><code>IgnoreStealthDrive</code><br><code>LineOfSight</code><br><code>MovementScore</code><br><code>Name</code><br><code>OutsideOfSafezone</code><br><code>Owner</code><br><code>PlayerControlled</code><br><code>PlayerKnownLocation</code><br><code>Powered</code><br><code>Relation</code><br><code>Shielded</code><br><code>Speed</code><br><code>Static</code><br><code>TargetValue</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MatchNoneFilters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MatchNoneFilters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more extra conditions that must be met when acquiring or evaluating a target. If any of the specified conditions under this tag are met, the target is not considered valid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Altitude</code><br><code>Broadcasting</code><br><code>Faction</code><br><code>Gravity</code><br><code>IgnoreStealthDrive</code><br><code>LineOfSight</code><br><code>MovementScore</code><br><code>Name</code><br><code>OutsideOfSafezone</code><br><code>Owner</code><br><code>PlayerControlled</code><br><code>PlayerKnownLocation</code><br><code>Powered</code><br><code>Relation</code><br><code>Shielded</code><br><code>Speed</code><br><code>Static</code><br><code>TargetValue</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GetTargetBy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GetTargetBy:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify which target should be used after all eligible targets have been identified. <code>HighestTargetValue</code> and <code>LowestTargetValue</code> are similar to the threat score calculations that are done in the Modular Encounters Spawner.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Random</code><br><code>ClosestDistance</code><br><code>FurthestDistance</code><br><code>HighestTargetValue</code><br><code>LowestTargetValue</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Owners</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Owners:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more ownership types that the target must have to be considered.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Owner</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Unowned</code><br><code>Player</code><br><code>NPC</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Relations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Relations:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to narrow down targets based on their relation to the behavior owner.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Relation</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Faction</code><br><code>Neutral</code><br><code>Enemy</code><br><code>Friends</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">FactionTargets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FactionTargets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to narrow down targets based on their Faction Owner.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Faction</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Faction Tag</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">OnlyGetFromEntityOwner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[OnlyGetFromEntityOwner:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies how the Owner and Relation is considered for targets. When <code>false</code>, ownership of subgrids is considered. While <code>true</code>, only the immediate grid or block is considered.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left">
+<code>Owner</code> and/or <code>Relation</code>
+</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GetFromMinorityGridOwners</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GetFromMinorityGridOwners:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies how the Owner and Relation is considered for targets. When <code>false</code>, only the majority ownership of a grid is considered. While <code>true</code>, minority ownership of a grid is also considered (eg: a player owning a single block on an NPC grid would flag the grid as NPC and Player owned).</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left">
+<code>Owner</code> and/or <code>Relation</code>
+</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PrioritizeSpecifiedFactions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PrioritizeSpecifiedFactions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies how Faction ownership should be considered for targets when using a <code>Faction</code> filter. If <code>false</code>, then the target MUST match the faction(s) provided. If <code>true</code>, then the evaluation will try to find the specified factions first, but will consider other valid targets if no targets from the specified factions can be found.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Faction</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PrioritizePlayerControlled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PrioritizePlayerControlled:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies how targets should be considered when using a <code>PlayerControlled</code> filter. If <code>false</code>, then the target MUST match be player controlled. If <code>true</code>, then the evaluation will try to find the player controlled targets first, but will consider other valid targets if no player controlled targets can be found.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>PlayerControlled</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IsStatic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsStatic:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if a target should be a Static Grid.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Static</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Yes</code><br><code>No</code><br><code>Ignore</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the minimum altitude a target must be at to be considered valid. If a target is not on a planet, then this tag is not considered. Value must not be <code>higher</code> than <code>MaxAltitude</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Altitude</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number (Negative or Positive)</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum altitude a target must be at to be considered valid. If a target is not on a planet, then this tag is not considered. Value must not be <code>lower</code> than <code>MinAltitude</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Altitude</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number (Negative or Positive)</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">NonBroadcastVisualRange</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[NonBroadcastVisualRange:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if a non broadcasting target should be considered if the target is within this specified distance.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Broadcasting</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinGravity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinGravity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the minimum gravity a target must be at to be considered valid. Value must not be <code>higher</code> than <code>MaxGravity</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Gravity</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxGravity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxGravity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum gravity a target must be at to be considered valid. Value must not be <code>lower</code> than <code>MinGravity</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Gravity</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the minimum speed a target must be at to be considered valid. Value must not be <code>higher</code> than <code>MaxSpeed</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Speed</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum speed a target must be at to be considered valid. Value must not be <code>lower</code> than <code>MinSpeed</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Speed</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinTargetValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the minimum value a target must be at to be considered valid. Value must not be <code>higher</code> than <code>MaxTargetValue</code>
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>TargetValue</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxTargetValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum value a target must be at to be considered valid. Value must not be <code>lower</code> than <code>MinTargetValue</code>. <strong>Default in MES source is 1</strong> if omitted - use <code>[MaxTargetValue:-1]</code> to remove the upper cap.
+</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>TargetValue</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Names</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Names:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to narrow down targets based on their Name (Block/Grid CustomName and Player DisplayName)</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Name</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Name</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UsePartialNameMatching</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UsePartialNameMatching:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if names used in provided <code>Names</code> tag are allowed to be a partial match. If <code>false</code>, then a target name must match exactly with one of the names provided.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>Name</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinMovementScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinMovementScore:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the minimum movement score (bounding-box size multiplied by current speed) a target must have to be considered valid</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>MovementScore</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code><br>Value should be lower than <code>MaxMovementScore</code> if tag is provided.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxMovementScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxMovementScore:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum movement score (bounding-box size multiplied by current speed) a target must have to be considered valid.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>MovementScore</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code><br>Value should be lower than <code>MaxMovementScore</code> if tag is provided.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxMovementDetectableDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxMovementDetectableDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum distance from the NPC that Movement Score is eligible to be calculated at.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>MovementScore</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxLineOfSight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxLineOfSight:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum distance that is used when performing a Line of Sight check</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>LineOfSight</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PlayerKnownLocationFactionOverride</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerKnownLocationFactionOverride:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to override the Player Known Location Faction Check to use a faction that is different from the faction that owns the NPC Remote Control</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>PlayerKnownLocation</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any NPC Faction Tag</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StealthDriveMinDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StealthDriveMinDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the minimum distance a target must maintain in order to remain undetectable while using a Stealth Drive.</td>
+</tr>
+<tr>
+<td align="left">Filter Required:</td>
+<td align="left"><code>LineOfSight</code></td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<!-- MES-WIKI-SOURCE-SYNC-START -->
+<div class="mes-wiki-sync-section">
+<div class="markdown-heading"><h2 class="heading-element">Additional Tags (MES Source Sync)</h2></div>
+<p>The tags below exist in the current MES workshop/GitHub source but were not present in the original MeridiusIX wiki page. Descriptions are generated from MES source code (ActionSystem handlers, profile fields, and tag naming).</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ActivateTargetLockAfterPlayerDamage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ActivateTargetLockAfterPlayerDamage:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures activate target lock after player damage.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">BroadcastOnlyAntenna</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BroadcastOnlyAntenna:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures broadcast only antenna.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">GetTargetLockBy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GetTargetLockBy:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures get target lock by.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ManualTargetLockOnly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ManualTargetLockOnly:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures manual target lock only.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxAirDensity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxAirDensity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures max air density.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxTargetLockingDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetLockingDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures max target locking distance.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxUnderWaterDepth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxUnderWaterDepth:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures max under water depth.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinAirDensity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinAirDensity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures min air density.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinUnderWaterDepth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinUnderWaterDepth:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures min under water depth.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TimeUntilTargetLockingRefresh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TimeUntilTargetLockingRefresh:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures time until target locking refresh.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UseTargetLastKnownPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseTargetLastKnownPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures use target last known position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UseVanillaTargetLocking</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseVanillaTargetLocking:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, uses Space Engineers vanilla turret/grid target locking.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<!-- MES-WIKI-SOURCE-SYNC-END -->
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+out/
+node_modules/
+*.vsix
+oldver/
+*-validation-report.json
+tools/.mes-github-cache/
+.DS_Store
+*.csproj.user
+*.cer
+*.xps
+InstructionExtention.xps

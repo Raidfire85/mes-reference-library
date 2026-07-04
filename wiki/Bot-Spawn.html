@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bot Spawn &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Bot Spawn</h1>
+  <div class="gh-header-meta">Author: JTurp</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>Bot Spawn Profiles in Modular Encounters Systems allow you to specify a set of rules for how a bot is configured before it is spawned by the AiEnabled mod.</p>
+<p>Here's an example of how a Bot Spawn Profile Definition is setup:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>&lt;?xml version="1.0"?&gt;
+&lt;Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;EntityComponents&gt;
+
+    &lt;EntityComponent xsi:type="MyObjectBuilder_InventoryComponentDefinition"&gt;
+      &lt;Id&gt;
+          &lt;TypeId&gt;Inventory&lt;/TypeId&gt;
+          &lt;SubtypeId&gt;MES-ExampleBotSpawnProfile&lt;/SubtypeId&gt;
+      &lt;/Id&gt;
+      &lt;Description&gt;
+
+      [MES Bot Spawn]
+      
+      [BotType:Police_Bot]
+      [BotDisplayName:Combat Bot]
+      
+      &lt;/Description&gt;
+      
+    &lt;/EntityComponent&gt;
+
+  &lt;/EntityComponents&gt;
+&lt;/Definitions&gt;
+</code></pre></div>
+<p>Below are all of the eligible tags you can use in your Bot Spawn Profiles:</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">BotType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BotType:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the type of bot that will be spawned.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Character type (the <code>Name</code> field in the SBC, not the SubtypeId)</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">BotBehavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BotBehavior:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the behavior that the spawned bot will use. If this tag is not defined, then it will use the default behavior that AiEnabled would use when spawning a bot of the selected type.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any AiEnabled Behavior Role</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">BotDisplayName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BotDisplayName:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the Display Name of the spawned bot.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Name</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Color:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the Color (RGB 0-255) of the spawned bot character.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Vector3 Value using this format<br><code>{X:0 Y:0 Z:0}</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CanUseAirNodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CanUseAirNodes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot is able to use Air Nodes (ie Jetpack).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CanUseSpaceNodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CanUseSpaceNodes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot is able to use Space Nodes (ie Jetpack).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseGroundNodesFirst</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseGroundNodesFirst:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot should try to use ground nodes before using air / space nodes.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CanUseWaterNodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CanUseWaterNodes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot is able to use water nodes (ie underwater via Water Mod)</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">WaterNodesOnly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[WaterNodesOnly:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot should only use water nodes (ie underwater only bot)</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CanUseLadders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CanUseLadders:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot is able to climb ladders</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CanUseSeats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CanUseSeats:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot is able to sit on seating blocks</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">DespawnTicks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[DespawnTicks:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot should despawn after a set number of game ticks. If value is <code>0</code>, then no timer is used.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Greater/Equal To <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>0</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">DeathSound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[DeathSound:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify a custom sound effect that is used when the bot dies.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Audio SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AttackSounds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AttackSounds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more custom sound effects that are used when the bot attacks.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Audio SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PainSounds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PainSounds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more custom sound effects that are used when the bot takes damage.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Audio SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IdleSounds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IdleSounds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more custom sound effects that are used when the bot is idle.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Audio SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TauntSounds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TauntSounds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more custom sound effects that are used when the bot is chasing a target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Audio SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">EmoteActions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EmoteActions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more emote that are used by nomad bots randomly.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Emote SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ShotDeviationAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ShotDeviationAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify the angle of deviation that is applied to gunfire from this bot.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Greater/Equal To `0'</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>1.5</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">LeadTargets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[LeadTargets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if bots should try to lead their target while shooting at them.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ToolSubtypeId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ToolSubtypeId:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify a custom tool/weapon for the bot to use.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Vanilla Tool SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CanDamageGrids</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CanDamageGrids:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the bot is able to damage grids (ie target blocks).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TargetPriorities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TargetPriorities:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more target priorities that the bot will use when attacking. Add them in priority order. Remove entries to have the bot ignore them completely (requires at least one entry for this to take effect).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">IMyCharacter<br>IMyUserControllableGun<br>IMyShipController<br>IMyPowerProducer<br>IMyThrust<br>IMyGyro<br>IMyProductionBlock<br>IMyDoor<br>IMyProgrammableBlock<br>IMyProjector<br>IMyConveyor<br>IMyCargoContainer<br>IMyFunctionalBlock<br>IMyTerminalBlock<br>IMyCubeBlock<br>IMySlimBlock</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left">All allowed values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RepairPriorities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RepairPriorities:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more repair priorities that the bot will use when repairing. Add them in priority order. Remove entries to have the bot ignore them completely (requires at least one entry for this to take effect).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">IMyUserControllableGun<br>IMyShipController<br>IMyPowerProducer<br>IMyThrust<br>IMyGyro<br>IMyProductionBlock<br>IMyDoor<br>IMyProgrammableBlock<br>IMyProjector<br>IMyConveyor<br>IMyCargoContainer<br>IMyFunctionalBlock<br>IMyTerminalBlock<br>IMyCubeBlock<br>IMySlimBlock</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left">All allowed values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<!-- MES-WIKI-SOURCE-SYNC-START -->
+<div class="mes-wiki-sync-section">
+<div class="markdown-heading"><h2 class="heading-element">Additional Tags (MES Source Sync)</h2></div>
+<p>The tags below exist in the current MES workshop/GitHub source but were not present in the original MeridiusIX wiki page. Descriptions are generated from MES source code (ActionSystem handlers, profile fields, and tag naming).</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">LootContainerSubtypeId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[LootContainerSubtypeId:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">A loot container subtype profile or id value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">Taunts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Taunts:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates taunts.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UseAiEnabled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseAiEnabled:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, uses ai enabled.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Default Value(s):</td>
+<td align="left"><code>N/A</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<!-- MES-WIKI-SOURCE-SYNC-END -->
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

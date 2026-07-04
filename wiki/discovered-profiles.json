@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "profiles": [
+    {
+      "profileCs": "ContractBlockProfile.cs",
+      "header": "[MES Contract Block]",
+      "htmlFile": "Contract-Block-Profile.html",
+      "title": "Contract Block",
+      "blurb": "Contract Block profiles use the [MES Contract Block] header in SBC Description blocks.",
+      "tagCount": 3,
+      "author": "CptArthur"
+    },
+    {
+      "profileCs": "FactionIconProfile.cs",
+      "header": "[MES Faction Icon]",
+      "htmlFile": "Faction-Icon-Profile.html",
+      "title": "Faction Icon",
+      "blurb": "Faction Icon profiles use the [MES Faction Icon] header in SBC Description blocks.",
+      "tagCount": 3,
+      "author": "MeridiusIX"
+    },
+    {
+      "profileCs": "MissionProfile.cs",
+      "header": "[MES Mission]",
+      "htmlFile": "Mission-Profile.html",
+      "title": "Mission",
+      "blurb": "Mission profiles define contract/mission data used by MES contract blocks.",
+      "tagCount": 24,
+      "author": "CptArthur"
+    },
+    {
+      "profileCs": "PrefabGravityProfile.cs",
+      "header": null,
+      "htmlFile": "Prefab-Gravity-Profile.html",
+      "title": "Prefab Gravity",
+      "blurb": "Prefab Gravity profile tags parsed from MES source.",
+      "tagCount": 3,
+      "author": "MeridiusIX"
+    },
+    {
+      "profileCs": "SafezoneProfile.cs",
+      "header": "[MES SafeZone]",
+      "htmlFile": "Safezone-Profile.html",
+      "title": "Safezone",
+      "blurb": "Safezone profiles define safe zones spawned or linked via MES actions.",
+      "tagCount": 18,
+      "author": "MeridiusIX"
+    },
+    {
+      "profileCs": "ShipyardProfile.cs",
+      "header": "[MES Shipyard]",
+      "htmlFile": "Shipyard-Profile.html",
+      "title": "Shipyard",
+      "blurb": "Shipyard profiles configure NPC shipyard blocks (blueprint building, repairs, scrap, grid takeover).",
+      "tagCount": 35,
+      "author": "MeridiusIX"
+    },
+    {
+      "profileCs": "StoreProfile.cs",
+      "header": "[MES Store]",
+      "htmlFile": "Store-Profile.html",
+      "title": "Store",
+      "blurb": "Store profiles configure economy store block offers and orders.",
+      "tagCount": 12,
+      "author": "MeridiusIX"
+    },
+    {
+      "profileCs": "SuitUpgradesProfile.cs",
+      "header": "[MES Suit Upgrades]",
+      "htmlFile": "Suit-Upgrades-Profile.html",
+      "title": "Suit Upgrades",
+      "blurb": "Suit Upgrades profiles use the [MES Suit Upgrades] header in SBC Description blocks.",
+      "tagCount": 7,
+      "author": "MeridiusIX"
+    }
+  ]
+}

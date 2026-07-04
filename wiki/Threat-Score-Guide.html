@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Threat Score Guide &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Threat Score Guide</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container wiki-container--single">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Modular Encounter Spawner - Threat Scoring</h1><a id="user-content-modular-encounter-spawner---threat-scoring" class="anchor" aria-label="Permalink: Modular Encounter Spawner - Threat Scoring" href="#modular-encounter-spawner---threat-scoring"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>When designing your SpawnGroups for use with MES, one feature that is available is Threat Score checking. This feature will scan an area around the proposed spawning coordinates and calculate the threat level of all player grids (and optionally NPC grids) within the specified radius.</p>
+<p>Here's a detailed outline of how the Threat Score is calculated for each grid:</p>
+<ul>
+<li>
+<p>A list of all blocks on the grid is collected. Initially, any block that is not a Terminal Block or Non-Functional (damaged, incomplete) will be skipped.</p>
+</li>
+<li>
+<p>Each block is checked to see if it can produce power (and if it is currently enabled/working). If so, for every 10MW of power the block can provide, 1 point is added to the threat score.</p>
+</li>
+<li>
+<p>The next check is to see if the block is a Special Modded Block. Below is a table of these blocks and their point value:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Block</th>
+<th align="left">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Nanobot Build and Repair (small and large)</td>
+<td align="left">10</td>
+</tr>
+<tr>
+<td align="left">Nanite Control Factory</td>
+<td align="left">15</td>
+</tr>
+<tr>
+<td align="left">Energy Shield (SmallGrid/Small)</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">Energy Shield (SmallGrid/Large)</td>
+<td align="left">7</td>
+</tr>
+<tr>
+<td align="left">Energy Shield (LargeGrid/Small)</td>
+<td align="left">10</td>
+</tr>
+<tr>
+<td align="left">Energy Shield (LargeGrid/Large)</td>
+<td align="left">20</td>
+</tr>
+<tr>
+<td align="left">Defense Shield (SmallGrid)</td>
+<td align="left">7</td>
+</tr>
+<tr>
+<td align="left">Defense Shield (LargeGrid)</td>
+<td align="left">10</td>
+</tr>
+<tr>
+<td align="left">Defense Shield (StationGrid)</td>
+<td align="left">20</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The following values are based on block types present on the grid. If the block scanned is also a modded variant, then the score for that block is doubled.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Block</th>
+<th align="left">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Weapons</td>
+<td align="left">5</td>
+</tr>
+<tr>
+<td align="left">Production</td>
+<td align="left">1.5</td>
+</tr>
+<tr>
+<td align="left">ToolBlock</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">Thruster</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">Cargo</td>
+<td align="left">0.5</td>
+</tr>
+<tr>
+<td align="left">Antenna</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">Beacon</td>
+<td align="left">3</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>Following the above, the calculator will then count the total blocks on the grid and add 1 point for every 100 blocks.</p>
+</li>
+<li>
+<p>The last calculation done is based on grid size. If the grid type is small, the total score is divided by half. If the grid type is large, the total score is multiplied by 2.5</p>
+</li>
+</ul>
+<p>After all these calculations are done, the spawner will add up the scores of all grids within the radius of the spawn coordinates, and if the score satisfies the requirements in the SpawnGroup, the encounter will appear.</p>
+      </div>
+    </div>
+
+</div>
+
+</body>
+</html>

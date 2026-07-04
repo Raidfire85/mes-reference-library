@@ -1,0 +1,209 @@
+{
+  "name": "mes-reference-library",
+  "displayName": "MES Reference Library",
+  "description": "Unofficial community tool for MES/RivalAI mod authors. Offline wiki with search and bookmarks. Validates mod .sbc files: MES profiles, cross-file references, audio/container/prefab links, and a mod validation report. Conservative one-click quick fixes. Optional GitHub sync updates tag docs (internet required). Not affiliated with MeridiusIX.",
+  "version": "3.15.5",
+  "publisher": "raidfire",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Raidfire85/mes-reference-library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Raidfire85/mes-reference-library/issues"
+  },
+  "homepage": "https://github.com/Raidfire85/mes-reference-library#readme",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Documentation",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "mes",
+    "modular encounter systems",
+    "RivalAI",
+    "space engineers",
+    "sbc",
+    "wiki",
+    "validation",
+    "modding"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mesReference",
+          "title": "MES Reference",
+          "icon": "media/activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "mesReference": [
+        {
+          "type": "webview",
+          "id": "mesReference.wikiView",
+          "name": "Wiki"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "mesReference.open",
+        "title": "MES Reference Library: Open",
+        "category": "MES Reference"
+      },
+      {
+        "command": "mesReference.search",
+        "title": "MES Reference Library: Search",
+        "category": "MES Reference"
+      },
+      {
+        "command": "mesReference.showBookmarks",
+        "title": "MES Reference Library: Show Bookmarks",
+        "category": "MES Reference"
+      },
+      {
+        "command": "mesReference.validateSbc",
+        "title": "MES Reference Library: Validate Current SBC",
+        "category": "MES Reference",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "mesReference.syncWiki",
+        "title": "MES Reference Library: Sync Wiki from MES Source",
+        "category": "MES Reference",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "mesReference.setMesSourcePath",
+        "title": "MES Reference Library: Set MES Source Path (Offline Fallback)",
+        "category": "MES Reference"
+      },
+      {
+        "command": "mesReference.showMesSourcePath",
+        "title": "MES Reference Library: Show MES Source Path",
+        "category": "MES Reference"
+      },
+      {
+        "command": "mesReference.clearMesSourcePath",
+        "title": "MES Reference Library: Clear MES Source Path",
+        "category": "MES Reference"
+      },
+      {
+        "command": "mesReference.validateMod",
+        "title": "MES Reference Library: Validate Mod (All SBC in Data)",
+        "category": "MES Reference",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "mesReference.openIssueWiki",
+        "title": "MES Reference Library: Open Wiki for Issue",
+        "category": "MES Reference",
+        "icon": "$(book)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "mesReference.open"
+        },
+        {
+          "command": "mesReference.search"
+        },
+        {
+          "command": "mesReference.showBookmarks"
+        },
+        {
+          "command": "mesReference.validateSbc"
+        },
+        {
+          "command": "mesReference.validateMod"
+        },
+        {
+          "command": "mesReference.syncWiki"
+        },
+        {
+          "command": "mesReference.setMesSourcePath"
+        },
+        {
+          "command": "mesReference.showMesSourcePath"
+        },
+        {
+          "command": "mesReference.clearMesSourcePath"
+        },
+        {
+          "command": "mesReference.openIssueWiki",
+          "when": "editorLangId == sbc || resourceExtname == .sbc"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "mesReference.validateMod",
+          "when": "explorerResourceIsFolder && resourceFilename == Data",
+          "group": "navigation@99"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "mesReference.validateSbc",
+          "when": "resourceExtname == .sbc",
+          "group": "navigation@99"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "mesReference.validateSbc",
+        "key": "ctrl+shift+m",
+        "when": "editorTextFocus && resourceExtname == .sbc"
+      },
+      {
+        "command": "mesReference.validateMod",
+        "key": "ctrl+shift+alt+m",
+        "when": "editorTextFocus && resourceExtname == .sbc"
+      }
+    ],
+    "configuration": {
+      "title": "MES Reference Library",
+      "properties": {
+        "mesReference.mesSourcePath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Optional **offline fallback** path to a local `ModularEncountersSystems` folder (must contain `ProfileManager.cs`). **You do not need to set this manually.** Sync always tries GitHub first. When GitHub fails, the extension auto-searches workshop and local mod installs, then prompts you to pick a folder if nothing is found. This setting stores the last chosen path for faster fallback next time."
+        },
+        "mesReference.syncOnFirstRun": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Run a **one-time** background wiki sync the first time the extension activates after install. Uses GitHub when online (no folder picker). After that, use **⟳ Sync** manually to stay up to date."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build-vsix": "powershell -ExecutionPolicy Bypass -File ./scripts/archive-old-vsix.ps1 && node --disable-warning=DEP0040 --disable-warning=DEP0169 ./node_modules/@vscode/vsce/vsce package --no-dependencies --allow-missing-repository",
+    "rebuild-tag-index": "npm run compile && node ./scripts/rebuild-tag-index.cjs",
+    "validate-mod": "npm run compile && node ./scripts/validate-mod.cjs",
+    "test-parser": "npm run compile && node ./scripts/test-sbc-parser.cjs",
+    "scan-vanilla-se-roots": "node ./scripts/scan-vanilla-se-roots.cjs",
+    "generate-icons": "powershell -ExecutionPolicy Bypass -File ./scripts/generate-icons.ps1",
+    "install-extension": "powershell -ExecutionPolicy Bypass -File ./scripts/install-extension.ps1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.4.0"
+  }
+}

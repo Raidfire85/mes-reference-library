@@ -1,0 +1,3230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Event Action &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Event Action</h1>
+  <div class="gh-header-meta">Author: CptArthur</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>These profile are what execute specified actions when the conditions in a Event Profile are satisfied. It is important that you use a unique SubtypeId for each Action Profile you create, otherwise they may not work correctly.</p>
+<p>Here is an example of how an Event Action Profile definition is setup:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>&lt;?xml version="1.0"?&gt;
+&lt;Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;EntityComponents&gt;
+
+    &lt;EntityComponent xsi:type="MyObjectBuilder_InventoryComponentDefinition"&gt;
+      &lt;Id&gt;
+          &lt;TypeId&gt;Inventory&lt;/TypeId&gt;
+          &lt;SubtypeId&gt;TAG-EventAction-Example&lt;/SubtypeId&gt;
+      &lt;/Id&gt;
+      &lt;Description&gt;
+
+	  [MES Event Action]
+      
+          [UseChatBroadcast:true]
+          [ChatData:RAI-ExampleChatProfile]
+
+	  [ChangeBooleans:true]
+	  [SetBooleansTrue:SomeRandomBool]	
+      &lt;/Description&gt;
+      
+    &lt;/EntityComponent&gt;
+
+  &lt;/EntityComponents&gt;
+&lt;/Definitions&gt;
+</code></pre></div>
+<p><strong><a href="#Debug">Debug</a></strong></p>
+<p><strong><a href="#SandboxVariables">SandboxVariables</a></strong></p>
+<p><strong><a href="#Chat">Chat</a></strong></p>
+<p><strong><a href="#Spawning">Spawning</a></strong></p>
+<p><strong><a href="#Zones">Zones</a></strong></p>
+<p><strong><a href="#Players">Players</a></strong></p>
+<p><strong><a href="#Events">Events</a></strong></p>
+<div class="markdown-heading"><h1 class="heading-element">Debug</h1><a id="user-content-debug" class="anchor" aria-label="Permalink: Debug" href="#debug"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">DebugHudMessage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[DebugHudMessage:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures debug hud message.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">SandboxVariables</h1><a id="user-content-sandboxvariables" class="anchor" aria-label="Permalink: SandboxVariables" href="#sandboxvariables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>This Section</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ChangeBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures change booleans.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SetBooleansTrue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SetBooleansTrue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures set booleans true.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SetBooleansFalse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SetBooleansFalse:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures set booleans false.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ChangeCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures change counters.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IncreaseCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures increase counters.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">DecreaseCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[DecreaseCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures decrease counters.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IncreaseCountersAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseCountersAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures increase counters amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any interger equal or greater than 0</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">DecreaseCountersAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[DecreaseCountersAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures decrease counters amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any interger equal or greater than 0</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SetCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SetCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures set counters.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SetCountersAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SetCountersAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures set counters amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any interger</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Chat</h1><a id="user-content-chat" class="anchor" aria-label="Permalink: Chat" href="#chat"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>This Section</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseChatBroadcast</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseChatBroadcast:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures use chat broadcast.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ChatData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChatData:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures chat data.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any behaviour Chat Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Spawning</h1><a id="user-content-spawning" class="anchor" aria-label="Permalink: Spawning" href="#spawning"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>This Section</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnVector3Ds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnVector3Ds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures spawn vector3 ds.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>Replace <code>#</code> with values in meters.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnFactionTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnFactionTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures spawn faction tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Spawner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Spawner:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures spawner.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any behaviour Spawner Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Zones</h1><a id="user-content-zones" class="anchor" aria-label="Permalink: Zones" href="#zones"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>This Section</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ChangeZoneAtPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeZoneAtPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures change zone at position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnEncounter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnEncounter:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures spawn encounter.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ZoneNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ZoneNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures zone names.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ZoneCoords</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ZoneCoords:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures zone coords.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>Replace <code>#</code> with values in meters.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ZoneToggleActiveModes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ZoneToggleActiveModes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">true will activate it. false will set disable it</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Players</h1><a id="user-content-players" class="anchor" aria-label="Permalink: Players" href="#players"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>This Section</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AddTagstoPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddTagstoPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures add tagsto players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AddTagsPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddTagsPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures add tags player condition ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AddTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures add tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RemoveTagsFromPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveTagsFromPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures remove tags from players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RemoveTagsPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveTagsPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures remove tags player condition ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RemoveTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures remove tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AddGPSToPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddGPSToPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures add gps to players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RemoveGPSFromPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveGPSFromPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures remove gps from players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseGPSObjective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseGPSObjective:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures use gps objective.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GPSNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GPSNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures gps names.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GPSDescriptions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GPSDescriptions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures gps descriptions.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GPSVector3Ds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GPSVector3Ds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures gps vector3 ds.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>Replace <code>#</code> with values in meters.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GPSColors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GPSColors:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures gps colors.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">FadeInPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FadeInPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures fade in players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">FadeInPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FadeInPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures fade in player condition ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">FadeOutPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FadeOutPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures fade out players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">FadeOutPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FadeOutPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures fade out player condition ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TeleportPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TeleportPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures teleport players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TeleportPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TeleportPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures teleport player condition ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TeleportPlayerCoords</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TeleportPlayerCoords:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures teleport player coords.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TeleportRadius</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TeleportRadius:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures teleport radius.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any interger</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Events</h1><a id="user-content-events" class="anchor" aria-label="Permalink: Events" href="#events"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>Jaa events!</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ToggleEvents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ToggleEvents:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures toggle events.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ToggleEventIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ToggleEventIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures toggle event ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Event Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ToggleEventIdModes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ToggleEventIdModes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">true will activate it. false will set disable it</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ToggleEventTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ToggleEventTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures toggle event tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ToggleEventTagModes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ToggleEventTagModes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">true will activate it. false will set disable it</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ResetCooldownTimeOfEvents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ResetCooldownTimeOfEvents:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures reset cooldown time of events.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ResetEventCooldownIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ResetEventCooldownIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures reset event cooldown ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Event Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">ResetEventCooldownTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ResetEventCooldownTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures reset event cooldown tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters ": [ ]"</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Custom Actions</h1><a id="user-content-custom-actions" class="anchor" aria-label="Permalink: Custom Actions" href="#custom-actions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>This Secition ...</p>
+<p><a href="Custom-Event-Actions-and-ScenarioTools.html">See Here</a></p>
+<!-- MES-WIKI-SOURCE-SYNC-START -->
+<div class="mes-wiki-sync-section">
+<div class="markdown-heading"><h2 class="heading-element">Additional Tags (MES Source Sync)</h2></div>
+<p>The tags below exist in the current MES workshop/GitHub source but were not present in the original MeridiusIX wiki page. Descriptions are generated from MES source code (ActionSystem handlers, profile fields, and tag naming).</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ActivateCustomAction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ActivateCustomAction:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates custom action.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddExcludedPlayerTag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddExcludedPlayerTag:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for add excluded player tag.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddGPSPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddGPSPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more add gps player condition profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddIncludedPlayerTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddIncludedPlayerTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for add included player tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddInstanceEventGroup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddInstanceEventGroup:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, enables or applies instance event group.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddItemPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddItemPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more add item player condition profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddItemToPlayersInventory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddItemToPlayersInventory:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, enables or applies item to players inventory.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddPlayerConditionPlayerTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddPlayerConditionPlayerTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, enables or applies player condition player tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AddTagsToPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AddTagsToPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures add tags to players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">Chance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Chance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures chance.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangePlayerCredits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangePlayerCredits:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, changes player credits.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangePlayerCreditsAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangePlayerCreditsAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric amount for change player credits amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangePlayerCreditsPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangePlayerCreditsPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more change player credits player condition profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationBetweenFactions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationBetweenFactions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, changes reputation between factions.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationFactionsAmounts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationFactionsAmounts:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for change reputation factions amounts.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationFactionsFrom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationFactionsFrom:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for change reputation factions from.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationFactionsTargets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationFactionsTargets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for change reputation factions targets.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationFactionsTo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationFactionsTo:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for change reputation factions to.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationPropagatesToPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationPropagatesToPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, changes reputation propagates to players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ChangeReputationWithPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ChangeReputationWithPlayers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, changes reputation with players.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CommandProfileIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandProfileIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more command profile profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CommandProfileOriginCoords</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandProfileOriginCoords:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Vector3D coordinates for command profile origin coords.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsBool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsBool:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates custom action arguments bool.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsDouble</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsDouble:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for custom action arguments double.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsFloat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsFloat:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for custom action arguments float.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsInt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsInt:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for custom action arguments int.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsLong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsLong:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for custom action arguments long.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsString</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsString:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for custom action arguments string.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionArgumentsVector3D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionArgumentsVector3D:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for custom action arguments vector3 d.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomActionName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomActionName:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Text value for custom action name.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">EventControllerNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EventControllerNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more event controller profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">EventControllersActive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EventControllersActive:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates event controllers active.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">EventControllersSetCurrentTime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EventControllersSetCurrentTime:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates event controllers set current time.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">GPSCoords</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GPSCoords:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for gps coords.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IncreaseRunCountEventIdAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseRunCountEventIdAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric amount for increase run count event id amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IncreaseRunCountEventIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseRunCountEventIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more increase run count event profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IncreaseRunCountEventTagAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseRunCountEventTagAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric amount for increase run count event tag amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IncreaseRunCountEventTags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseRunCountEventTags:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for increase run count event tags.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IncreaseRunCountOfEvents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IncreaseRunCountOfEvents:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, enables or applies run count of events.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">InstanceEventGroupId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[InstanceEventGroupId:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">A instance event group profile or id value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">InstanceEventGroupReplaceKeys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[InstanceEventGroupReplaceKeys:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for instance event group replace keys.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">InstanceEventGroupReplaceValues</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[InstanceEventGroupReplaceValues:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for instance event group replace values.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ItemIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ItemIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more item profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">OverrideCommandCode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[OverrideCommandCode:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Text value for override command code.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">OverridePlayerConditionPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[OverridePlayerConditionPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates override player condition position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">OverridePosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[OverridePosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Vector3D coordinates for override position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">RemoveGPSNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveGPSNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more remove gps profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">RemoveGPSPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveGPSPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more remove gps player condition profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">RemoveThisInstanceGroup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoveThisInstanceGroup:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates remove this instance group.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ReputationChangeAmount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ReputationChangeAmount:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric amount for reputation change amount.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ReputationChangeFactions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ReputationChangeFactions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for reputation change factions.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ReputationChangesForAllRadiusPlayerFactionMembers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ReputationChangesForAllRadiusPlayerFactionMembers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates reputation changes for all radius player faction members.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ReputationMaxCap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ReputationMaxCap:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for reputation max cap.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ReputationMinCap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ReputationMinCap:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for reputation min cap.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ReputationPlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ReputationPlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more reputation player condition profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">SetEventControllers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SetEventControllers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, sets event controllers.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">SpawnCoords</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnCoords:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for spawn coords.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">SpawnReplaceKeys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnReplaceKeys:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for spawn replace keys.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">SpawnReplaceValues</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnReplaceValues:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for spawn replace values.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TryContractFail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TryContractFail:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, attempts contract fail.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TryContractSuccess</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TryContractSuccess:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, attempts contract success.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<!-- MES-WIKI-SOURCE-SYNC-END -->
+
+
+
+
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

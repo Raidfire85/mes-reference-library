@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spawn &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Spawn</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>Spawn Profiles in RivalAI allow you to specify a set of parameters that get passed to the Modular Encounters Spawner that will spawn an encounter when triggered. These are essentially RivalAI's alternative to Keen's Antenna Spawns. Spawn Profiles are attached to <strong>Action Profiles</strong>. It is important that you use a unique SubtypeId for each Spawn Profile you create, otherwise they may not work correctly.</p>
+<p>Here's an example of how a Spawn Profile Definition is setup:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>&lt;?xml version="1.0"?&gt;
+&lt;Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;EntityComponents&gt;
+
+    &lt;EntityComponent xsi:type="MyObjectBuilder_InventoryComponentDefinition"&gt;
+      &lt;Id&gt;
+          &lt;TypeId&gt;Inventory&lt;/TypeId&gt;
+          &lt;SubtypeId&gt;RAI-ExampleSpawnProfile&lt;/SubtypeId&gt;
+      &lt;/Id&gt;
+      &lt;Description&gt;
+
+      [RivalAI Spawn]
+      
+      [UseSpawn:true]
+      
+      [StartsReady:true]
+      [SpawnMinCooldown:30]
+      [SpawnMaxCooldown:60]
+      [MaxSpawns:3]
+      
+      [SpawnGroups:DefenseDrone]
+      [SpawnGroups:AssaultDrone]
+      
+      [UseRelativeSpawnPosition:false]
+      [MinDistance:1000]
+      [MaxDistance:1500]
+      [MinAltitude:500]
+      [MaxAltitude:1000]
+      [IgnoreSafetyChecks:false]
+      
+      &lt;/Description&gt;
+      
+    &lt;/EntityComponent&gt;
+
+  &lt;/EntityComponents&gt;
+&lt;/Definitions&gt;
+</code></pre></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseSpawn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseSpawn:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the behavior should use your Spawn Profile.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawningType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawningType:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the type of spawn that this spawn profile will request from the Modular Encounters Spawner. Please note that all position tags are not used for tags other than <code>CustomSpawn</code>. Also, if using <code>CustomSpawn</code>, your SpawnGroup/Conditions must include the <code>[RivalAiSpawn:true]</code> tag</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>CustomSpawn</code><br><code>SpaceCargoShip</code><br><code>RandomEncounter</code><br><code>PlanetaryCargoShip</code><br><code>PlanetaryInstallation</code><br><code>BossEncounter</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StartsReady</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StartsReady:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the Spawn Profile should be ready to spawn as soon as it is triggered from the Action Profile.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnMinCooldown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnMinCooldown:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the minimum time (in seconds) after a spawn event that the profile needs to wait before it can attempt another.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any integer greater than <code>0</code><br>Must be lower than <code>SpawnMaxCooldown</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnMaxCooldown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnMaxCooldown:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the maximum time (in seconds) after a spawn event that the profile needs to wait before it can attempt another.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any integer greater than <code>0</code><br>Must be higher than <code>SpawnMinCooldown</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxSpawns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxSpawns:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the maximum amount of spawns that can be triggered from this profile.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any integer greater than <code>0</code><br><code>-1</code> is used for No Limit</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnGroups</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnGroups:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the SubtypeId of a SpawnGroup you want the profile to spawn. If multiple instances of this tag are provided, the Modular Encounter Spawner will select one at random based on the SpawnGroup <code>Frequency</code> rules. When using any other SpawningType than <code>CustomSpawn</code>, not providing a SpawnGroup here will request a random spawn from any eligible spawngroup for that area.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any SpawnGroup SubtypeId string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseRelativeSpawnPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseRelativeSpawnPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the Spawn position should be at a relative position to the NPC Remote Control block. Otherwise the spawn will be in a random location within a min/max distance from the grid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the minimum spawn distance from the NPC grid if <code>UseRelativeSpawnPosition</code> is <code>false</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code><br>Must be lower than <code>MaxDistance</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the maximum spawn distance from the NPC grid if <code>UseRelativeSpawnPosition</code> is <code>false</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code><br>Must be higher than <code>MinDistance</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the minimum spawn altitude from the NPC grid if <code>UseRelativeSpawnPosition</code> is <code>false</code>. This is only used if the spawn occurs in natural gravity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code><br>Must be lower than <code>MaxAltitude</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the maximum spawn altitude from the NPC grid if <code>UseRelativeSpawnPosition</code> is <code>false</code>. This is only used if the spawn occurs in natural gravity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code><br>Must be higher than <code>MinAltitude</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">InheritNpcAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[InheritNpcAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the current altitude of the NPC should be added to the random result of <code>MinAltitude</code> and <code>MinAltitude</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RelativeSpawnOffset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RelativeSpawnOffset:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the position offset from the Remote Control that a spawn will be located at if <code>UseRelativeSpawnPosition</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>X: Right<br>Y: Up<br>Z: Forward<br>Replace <code>#</code> with values in meters.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RelativeSpawnVelocity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RelativeSpawnVelocity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the velocity vector from the Remote Control that a spawn will start with if <code>UseRelativeSpawnPosition</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">A Vector3D Value in the following format:<br><code>{X:# Y:# Z:#}</code><br>X: Right<br>Y: Up<br>Z: Forward<br>Replace <code>#</code> with values in m/s.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IgnoreSafetyChecks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IgnoreSafetyChecks:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the safety checks that look for obstructions before spawn should be ignored.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<!-- MES-WIKI-SOURCE-SYNC-START -->
+<div class="mes-wiki-sync-section">
+<div class="markdown-heading"><h2 class="heading-element">Additional Tags (MES Source Sync)</h2></div>
+<p>The tags below exist in the current MES workshop/GitHub source but were not present in the original MeridiusIX wiki page. Descriptions are generated from MES source code (ActionSystem handlers, profile fields, and tag naming).</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomCountersVariables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCountersVariables:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures custom counters variables.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomCountersVariablesReferences</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCountersVariablesReferences:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures custom counters variables references.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomRelativeForward</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomRelativeForward:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures custom relative forward.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomRelativeUp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomRelativeUp:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures custom relative up.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FirstSpawnTimeMs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FirstSpawnTimeMs:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures first spawn time ms.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ForceSameFactionOwnership</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ForceSameFactionOwnership:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures force same faction ownership.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ProcessAsAdminSpawn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ProcessAsAdminSpawn:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, treats the spawn action as an admin spawn (bypasses some spawn condition checks).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TransferCustomCountersVariables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TransferCustomCountersVariables:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures transfer custom counters variables.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UseWaypoint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseWaypoint:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures use waypoint.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">Waypoint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Waypoint:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures waypoint.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<!-- MES-WIKI-SOURCE-SYNC-END -->
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

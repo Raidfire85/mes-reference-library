@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core Behavior &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Core Behavior</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>Behavior Profiles in Rival AI are how you give your NPC grids special behaviors. After specifying a <code>BehaviorName</code> tag that gives your behavior its basic movement patterns, you can then attach all sorts of other tags to the behavior that define its Autopilot rules, Targeting rules, and Triggers that execute when certain conditions are met!</p>
+<p>Here is an example of how a Behavior Profile definition is setup:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>&lt;?xml version="1.0"?&gt;
+&lt;Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;EntityComponents&gt;
+
+    &lt;EntityComponent xsi:type="MyObjectBuilder_InventoryComponentDefinition"&gt;
+      &lt;Id&gt;
+          &lt;TypeId&gt;Inventory&lt;/TypeId&gt;
+          &lt;SubtypeId&gt;RAI-ExampleActionProfile&lt;/SubtypeId&gt;
+      &lt;/Id&gt;
+      &lt;Description&gt;
+
+      [RivalAI Behavior]
+      
+      [BehaviorName:Horsefly]
+	
+      [AutopilotData:RAI-ExampleAutopilotProfile]
+      [TargetData:RAI-ExampleTargetProfile]
+      [Triggers:RAI-ExampleTriggerA]
+      [Triggers:RAI-ExampleTriggerB]
+
+      &lt;/Description&gt;
+      
+    &lt;/EntityComponent&gt;
+
+  &lt;/EntityComponents&gt;
+&lt;/Definitions&gt;
+</code></pre></div>
+<p>Below are the tags you are able to use in your Behavior Profiles. They are divided into several categories based on what they control.</p>
+<p><strong><a href="#Core">Core</a></strong><br>
+<strong><a href="#Damage">Damage</a></strong><br>
+<strong><a href="#Despawn">Despawn</a></strong><br>
+<strong><a href="#Damage">Damage</a></strong><br>
+<strong><a href="#EscortSystem">EscortSystem</a></strong><br>
+<strong><a href="#Weapons">Weapons</a></strong></p>
+<p><strong><a href="#CargoShip">CargoShip</a></strong><br>
+<strong><a href="#Escort">Escort</a></strong><br>
+<strong><a href="#Fighter">Fighter</a></strong><br>
+<strong><a href="#HorseFighter">HorseFighter</a></strong><br>
+<strong><a href="#Horsefly">Horsefly</a></strong><br>
+<strong><a href="#Hunter">Hunter</a></strong><br>
+<strong><a href="#Nautical">Nautical</a></strong><br>
+<strong><a href="#Passive">Passive</a></strong><br>
+<strong><a href="#Patrol">Patrol</a></strong><br>
+<strong><a href="#Scout">Scout</a></strong><br>
+<strong><a href="#Sniper">Sniper</a></strong><br>
+<strong><a href="#Strike">Strike</a></strong></p>
+<div class="markdown-heading"><h1 class="heading-element">Core</h1><a id="user-content-core" class="anchor" aria-label="Permalink: Core" href="#core"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>These tags are the main building blocks of your behavior. You can specify the type of Behavior your encounter will use, along with other parameters/profiles such as Autopilot, Targeting, Triggers, etc.</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">BehaviorName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BehaviorName:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the type of preset behavior that you NPC should use. Depending on what type you choose, additional tags become available for use (see Behavior Specific Tags section for more details)</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>CargoShip</code><br><code>Escort</code><br><code>Fighter</code><br><code>HorseFighter</code><br><code>Horsefly</code><br><code>Hunter</code><br><code>Nautical</code><br><code>Passive</code><br><code>Patrol</code><br><code>Strike</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AutopilotData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AutopilotData:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the Autopilot Profile that you want your behavior to use.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Autopilot Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SecondaryAutopilotData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SecondaryAutopilotData:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies a second Autopilot Profile that you want your behavior to use. Some behaviors may require this, otherwise it is optional.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Autopilot Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TertiaryAutopilotData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TertiaryAutopilotData:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies a third Autopilot Profile that you want your behavior to use. Some behaviors may require this, otherwise it is optional.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Autopilot Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TargetData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TargetData:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the Target Profile that you want your behavior to use when acquiring targets.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Target Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">OverrideTargetData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[OverrideTargetData:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the Target Profile that you want your behavior to use when acquiring targets from Actions (eg Damage Attacker, Received From Command, Received From Turret, etc).</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Target Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">Triggers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Triggers:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies Trigger Profiles that you want your behavior to use.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Trigger Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TriggerGroups</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TriggerGroups:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies TriggerGroup Profiles that you want your behavior to use.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any TriggerGroup Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RemoteControlCode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RemoteControlCode:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies a code that is attached to the Remote Control and then registered with the Modular Encounters Spawner. This allows you to setup other SpawnGroups to spawn inside/outside a certain distance of this Remote Control while it is active.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">WeaponSystem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[WeaponSystem:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies a Weapon System Profile that you want your behavior to use.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Weapon System Profile SubtypeId</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Damage</h1><a id="user-content-damage" class="anchor" aria-label="Permalink: Damage" href="#damage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>The Damage System in Rival AI is used to monitor when damage is taken and how to respond to it.</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseDamageDetection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseDamageDetection:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if an NPC grid should monitor for Damage. When damage is detected, it can be used to with the Trigger System to activate Action Profiles.<br><br>This tag only need to be assigned to <code>true</code> if you plan to use the Accumulated Damage Conditions in a <code>Condition Profile</code> without having Trigger Profiles that watch for Damage events. If you include any Trigger Profile that watches Damage, this value will default to <code>true</code>
+</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Despawn</h1><a id="user-content-despawn" class="anchor" aria-label="Permalink: Despawn" href="#despawn"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>The Despawn System in Modular Encounters Systems is used to control when an NPC ship should either Retreat and/or Despawn.</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UsePlayerDistanceTimer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UsePlayerDistanceTimer:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if a despawn timer should be started if there are no players in the area near the NPC.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PlayerDistanceTimerTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerDistanceTimerTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the time that a player must be outside of the <code>PlayerDistanceTrigger</code> distance from the NPC before the despawn occurs.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PlayerDistanceTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerDistanceTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the max distance a player can be from the NPC before the Player Distance Timer starts.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseNoTargetTimer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseNoTargetTimer:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if a retreat timer should be started if there are no valid targets in the area near the NPC.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">NoTargetTimerTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[NoTargetTimerTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the time that must pass without finding a valid target before the NPC retreats.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseRetreatTimer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseRetreatTimer:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if a retreat timer should be started immediately after the NPC spawns. Once the timer reaches 0, the NPC would abandon anything it was currently doing and retreat/despawn.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RetreatTimerTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RetreatTimerTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the time from spawn that it will take for the Behavior to trigger the Retreat function.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RetreatDespawnDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RetreatDespawnDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the max distance a player can be from the NPC after it begins retreating before the NPC depsawns.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Higher Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">EscortSystem</h1><a id="user-content-escortsystem" class="anchor" aria-label="Permalink: EscortSystem" href="#escortsystem"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>The Escort System in Modular Encounters Systems is used to assist other ships following an NPC in a formation.</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">EscortOffsets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EscortOffsets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies an offset location from the NPC Remote Control block that will be assigned to other NPCs requesting to escort this NPC.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Vector3D String<br><code>eg {X:100 Y:0 Z:0}</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">CargoShip</h1><a id="user-content-cargoship" class="anchor" aria-label="Permalink: CargoShip" href="#cargoship"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The Cargo Ship behavior is designed to be an alternative from using the default Cargo Ship movement types (no-dampener drifting in space or Keen autopilot in gravity). The behavior will use RivalAI Autopilot to drive the ship to the Despawn Coordinates that are generated by the Modular Encounters Spawner. If no Despawn Coordinates were generated by the Spawner, then it will generate its own.</p>
+<p>In addition to this, the behavior is also able to travel to other waypoints before traveling to its Despawn coordinates. Using Command Profiles with the Trigger / Action system can allow this behavior to receive waypoints generated by other encounters, allowing for events where a ship may fly close to another encounter or station (simulating supply drop off, etc).</p>
+<p>It is recommended to use this behavior with an Autopilot Profile that uses the <code>FlyLevelWithGravity</code> tag.
+<strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/CargoShip.sbc.html">Click Here</a></td>
+</tr>
+<tr>
+<td align="left">Despawn</td>
+<td align="left">UseNoTargetTimer</td>
+<td align="left"><code>false</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>The CargoShip behavior type also has some custom Trigger Types as well. Below they are described:</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Type:</th>
+<th align="left">Description:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>BehaviorTriggerA</code></td>
+<td align="left">This trigger is activated when the CargoShip arrives at a non-despawn waypoint.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerB</code></td>
+<td align="left">This trigger is activated when the CargoShip leaves a waypoint.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerC</code></td>
+<td align="left">This trigger is activated when the CargoShip switches from a despawn waypoint to a non-despawn waypoint.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerD</code></td>
+<td align="left">This trigger is activated when the CargoShip switches from a non-despawn waypoint to a despawn waypoint.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Escort</h1><a id="user-content-escort" class="anchor" aria-label="Permalink: Escort" href="#escort"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> This behavior is used in conjunction with the Trigger/Action/Command system to allow a ship to request escorting another ship (eg: small drone escorting a cargo ship). Once the behavior sends the request, nearby potential 'parent' ships will receive the request. If the parent ship has a trigger configured to receive the command and process the escort request, it will attempt to designate an available escort offset to the requestor (offsets need to be defined in the parent behavior). If an escort offset is successfully designated, then the requestor will travel to the offset and continue to travel to it as long as the ship exists. If an escort cannot acquire a parent grid to follow, then it will trigger a despawn based on time set in <code>WaypointWaitTimeTrigger</code> of the current Autopilot Profile (this only happens while <code>UseNoTargetTimer</code> is true).</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/Escort.sbc.html">Click Here</a></td>
+</tr>
+<tr>
+<td align="left">Despawn</td>
+<td align="left">UseNoTargetTimer</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetType</td>
+<td align="left"><code>Player</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetRelation</td>
+<td align="left"><code>Enemy</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetOwner</td>
+<td align="left"><code>Player</code></td>
+</tr>
+<tr>
+<td align="left">Weapons</td>
+<td align="left">UseStaticGuns</td>
+<td align="left"><code>true</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Fighter</h1><a id="user-content-fighter" class="anchor" aria-label="Permalink: Fighter" href="#fighter"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The fighter behavior is designed primarily for small grid drones or fighter craft. It utilizes Forward Facing Static Weapons to engage targets. The behavior will approach the target, and then once it reaches a specified distance, it will switch to another mode where it will rotate towards the target to engage with weapons, while occasionally strafing.</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/Fighter.sbc.html">Click Here</a></td>
+</tr>
+<tr>
+<td align="left">Despawn</td>
+<td align="left">UseNoTargetTimer</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetType</td>
+<td align="left"><code>Player</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetRelation</td>
+<td align="left"><code>Enemy</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetOwner</td>
+<td align="left"><code>Player</code></td>
+</tr>
+<tr>
+<td align="left">Weapons</td>
+<td align="left">UseStaticGuns</td>
+<td align="left"><code>true</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>The Fighter behavior type also has some custom Trigger Types as well. Below they are described:</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Type:</th>
+<th align="left">Description:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>BehaviorTriggerA</code></td>
+<td align="left">This trigger is activated when the Fighter is within Strafe / Rotate to Target distance (ie Engage).</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerB</code></td>
+<td align="left">This trigger is activated when the Fighter is outside Strafe / Rotate to Target distance (ie Approach).</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Horsefly</h1><a id="user-content-horsefly" class="anchor" aria-label="Permalink: Horsefly" href="#horsefly"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The Horsefly behavior is designed for ships of any size that use Turrets as their primary means of attack. The behavior flies to the area of a target. Once within range, the NPC will fly to random positions around the target while the turrets engage. If the NPC cannot reach one of the waypoints after a certain time, it will recalculate a new waypoint. This behavior does not use Static Weapons.</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/Horsefly.sbc.html">Click Here</a></td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">HorseFighter</h1><a id="user-content-horsefighter" class="anchor" aria-label="Permalink: HorseFighter" href="#horsefighter"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> One day, the fighter behavior went out for a few drinks. It ended up going home with the Horsefly behavior for some consensual... well, you can use your imagination (or don't, that's probably the sane thing to do).</p>
+<p>HorseFighter is a combination between the Horsefly and Fighter behaviors. Its main behavior mostly resembles the Horsefly movements where it will fly around a target in randomized patters and engage targets with Turrets.</p>
+<p>Internally, there is a timer that toggles a switch between Fighter and Horsefly. If the switch is activated and the NPC grid is within range of the target, the behavior will switch to the Rotate and Strafe behavior of the Fighter, engaging with Static Weapons.</p>
+<p>After the timer triggers the switch to turn off again, the behavior will resume Horsefly-like flight patterns until the timer once again activates the switch.</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/HorseFighter.sbc.html">Click Here</a></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>Below are the custom tags you can use for the Horsefly Behavior:</p>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">HorseFighterTimeApproaching</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterTimeApproaching:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the amount of time before the NPC will spend in Horsefly mode before switching to Fighter mode (if in range of the target based on the EngageDistance tags).</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any integer <code>0</code> or greater<br>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">HorseFighterTimeEngaging</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterTimeEngaging:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the amount of time before the NPC will spend in Fighter mode before switching to Horsefly mode.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any integer <code>0</code> or greater<br>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Hunter</h1><a id="user-content-hunter" class="anchor" aria-label="Permalink: Hunter" href="#hunter"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The hunter behavior is an advanced combat behavior that requires careful setup of its Targeting and Autopilot Profiles to function properly. When the behavior does not have a valid target, it will approach its despawn coordinates using the <strong>Primary Autopilot Profile</strong>.</p>
+<p>If the behavior acquires a target, it will begin to approach the target using the <strong>Secondary Autopilot Profile</strong> if it is still valid when it does it's own timed check. While approaching the target, it requires one of 3 methods to confirm the target as valid. To confirm a valid target, it can use Turret Target Detection, Camera Raycast, or Line of Sight (if the target profile includes that filter).</p>
+<p>If a target is validated, then the behavior will engage it with <code>Fighter</code> like maneuvering. If a target is lost and no other target can be found, the behavior will still travel to the target's last known location for a short time before resuming its course to despawn coordinates.</p>
+<p>If another target is later acquired, the process above is repeated.</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Profiles</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/Hunter.sbc.html">Click Here</a></td>
+</tr>
+<tr>
+<td align="left">Despawn</td>
+<td align="left">UseNoTargetTimer</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetType</td>
+<td align="left"><code>Player</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetRelation</td>
+<td align="left"><code>Enemy</code></td>
+</tr>
+<tr>
+<td align="left">Target Profile</td>
+<td align="left">TargetOwner</td>
+<td align="left"><code>Player</code></td>
+</tr>
+<tr>
+<td align="left">Weapons</td>
+<td align="left">UseStaticGuns</td>
+<td align="left"><code>true</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>The Hunter behavior type also has some custom Trigger Types as well. Below they are described:</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Type:</th>
+<th align="left">Description:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>BehaviorTriggerA</code></td>
+<td align="left">This trigger is activated when the Hunter detects a new target while approaching Despawn.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerB</code></td>
+<td align="left">This trigger is activated when the Hunter loses its current target, but is still approaching the targets last known coordinates.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerC</code></td>
+<td align="left">This trigger is activated when the Hunter loses its current target and resumes travel to Despawn.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerD</code></td>
+<td align="left">This trigger is activated when the Hunter confirms a target and begins to Engage.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerE</code></td>
+<td align="left">This trigger is activated when the Hunter enters Strafe/Rotate range of a target.</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerF</code></td>
+<td align="left">This trigger is activated when the Hunter leaves Strafe/Rotate range of a target.</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>Below are the custom tags you can use for the Hunter Behavior:</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TimeBetweenNewTargetChecks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TimeBetweenNewTargetChecks:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the time it takes to check if the behavior has a valid target to begin approaching.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">LostTargetTimerTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[LostTargetTimerTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the time the behavior will spend approaching the last known coordinates of a lost target before resuming travel to its despawn coordinates.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">EngageOnCameraDetection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EngageOnCameraDetection:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the behavior should use Camera Blocks to confirm potential targets that it is approaching. Please be mindful of how many cameras your grid uses, since these checks cannot be done in a parallel thread - meaning they can become a performance concern if spammed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">EngageOnWeaponActivation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EngageOnWeaponActivation:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the behavior should use Turret Targeting to confirm if an approached target is valid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">EngageOnTargetLineOfSight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[EngageOnTargetLineOfSight:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the behavior should use the <code>LineOfSight</code> filter in the Target Profile to confirm if the approached target is valid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CameraDetectionMaxRange</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CameraDetectionMaxRange:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the max distance that Camera Blocks will attempt to raycast a target if using the <code>EngageOnCameraDetection</code> tag.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="markdown-heading"><h1 class="heading-element">Nautical</h1><a id="user-content-nautical" class="anchor" aria-label="Permalink: Nautical" href="#nautical"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The Nautical behavior is a specialized behavior that is designed to work with <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2200451495.html" rel="nofollow">Jakaria's Water Mod</a>. This behavior allows NPCs to navigate to a target while floating in water. It uses pathfinding to navigate around terrain obstacles, allowing it reach targets that may be hiding among complex terrain and water. NPCs using this behavior must be spawned in water, otherwise they will not be able to move.</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/Nautical.sbc.html">Click Here</a></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>The Nautical behavior type also has some custom Trigger Types as well. Below they are described:</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Type:</th>
+<th align="left">Description:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>BehaviorTriggerA</code></td>
+<td align="left">This trigger is activated when the Nautical is within Strafe / Rotate to Target distance (ie Engage).</td>
+</tr>
+<tr>
+<td align="left"><code>BehaviorTriggerB</code></td>
+<td align="left">This trigger is activated when the Nautical is outside Strafe / Rotate to Target distance (ie Approach).</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p><strong>Behavior Tags:</strong></p>
+<p>See the AutoPilot Profile guide for compatible tags with this behavior.</p>
+<div class="markdown-heading"><h1 class="heading-element">Passive</h1><a id="user-content-passive" class="anchor" aria-label="Permalink: Passive" href="#passive"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The passive behavior is designed to be used with Cargo Ship and Station encounters. It does not have any special features on its own, but instead relies on provided configuration in the rest of the behavior settings (Triggers, Actions, etc).</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Despawn</td>
+<td align="left">UsePlayerDistanceTimer</td>
+<td align="left"><code>false</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>The Passive Behavior Type has not behavior exclusive tags at this time.</p>
+<div class="markdown-heading"><h1 class="heading-element">Patrol</h1><a id="user-content-patrol" class="anchor" aria-label="Permalink: Patrol" href="#patrol"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> This behavior allows the ship using it to patrol a random area from where the ship first spawned. The distances for this are governed by the same Offset tags that Horsefly and other behaviors use.</p>
+<div class="markdown-heading"><h1 class="heading-element">Scout</h1><a id="user-content-scout" class="anchor" aria-label="Permalink: Scout" href="#scout"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<div class="markdown-heading"><h1 class="heading-element">Sniper</h1><a id="user-content-sniper" class="anchor" aria-label="Permalink: Sniper" href="#sniper"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<div class="markdown-heading"><h1 class="heading-element">Strike</h1><a id="user-content-strike" class="anchor" aria-label="Permalink: Strike" href="#strike"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p><strong>Behavior Description:</strong> The Strike behavior is designed primarily for small grid drones or fighter craft. It utilizes Forward Facing Static Weapons to engage targets. The behavior will fly in the general direction of a target, and once it gets within a certain range it will charge directly at the target and engage with static weapons. It will then break from the charge, retreating a short distance, and then attempt another charge. If the target is on a planet near the surface, the charge maneuver is reminiscent of a dive-bomb maneuver. This behavior does not use Keen Vanilla AutoPilot at all.</p>
+<hr>
+<p><strong>Core System Tag Defaults:</strong></p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">System:</th>
+<th align="left">Tag:</th>
+<th align="left">Value:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">AutoPilot</td>
+<td align="left">Default Primary Profile</td>
+<td align="left"><a href="https://github.com/MeridiusIX/RivalAI/blob/master/Data/GenericProfiles/Autopilot/Strike.sbc.html">Click Here</a></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>Below are the custom tags you can use for the Strike Behavior:</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StrikeBeginSpaceAttackRunDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StrikeBeginSpaceAttackRunDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the distance (while in space) from the offset coordinates the NPC initially travels to near the target before it switches direction and begins to attack the player.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StrikeBeginPlanetAttackRunDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StrikeBeginPlanetAttackRunDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the distance (while in natural gravity) from the offset coordinates the NPC initially travels to near the target before it switches direction and begins to attack the player.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StrikeBreakawayDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StrikeBreakawayDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the distance from a target before the NPC will attempt its breakaway from charging the target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StrikeOffsetRecalculationTime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StrikeOffsetRecalculationTime:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the maximum time (in seconds) that the NPC will spend trying to reach an offset waypoint before recalculating another one (this is useful if the NPC cannot reach a waypoint for some reason).</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StrikeEngageUseSafePlanetPathing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StrikeEngageUseSafePlanetPathing:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the NPC should still use safe planetary pathing while engaging targets on a planet. Default value is <code>true</code>. Disabling this may cause an NPC to crash into terrain when engaging a target in an attack run.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">StrikeEngageUseCollisionEvasion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[StrikeEngageUseCollisionEvasion:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the NPC should still use collision evasion while engaging targets. Default value is <code>true</code>. Disabling this may cause an NPC to crash into objects when engaging a target in an attack run.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<!-- MES-WIKI-SOURCE-SYNC-START -->
+<div class="mes-wiki-sync-section">
+<div class="markdown-heading"><h2 class="heading-element">Additional Tags (MES Source Sync)</h2></div>
+<p>The tags below exist in the current MES workshop/GitHub source but were not present in the original MeridiusIX wiki page. Descriptions are generated from MES source code (ActionSystem handlers, profile fields, and tag naming).</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomWaypoints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomWaypoints:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates custom waypoints.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterDisengageDistancePlanet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterDisengageDistancePlanet:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates fighter disengage distance planet.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterDisengageDistanceSpace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterDisengageDistanceSpace:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates fighter disengage distance space.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterEngageDistancePlanet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterEngageDistancePlanet:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates fighter engage distance planet.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterEngageDistanceSpace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterEngageDistanceSpace:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates fighter engage distance space.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterPlaneBeginPlanetAttackRunDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterPlaneBeginPlanetAttackRunDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Distance in meters for fighter plane begin planet attack run.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterPlaneBeginSpaceAttackRunDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterPlaneBeginSpaceAttackRunDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Distance in meters for fighter plane begin space attack run.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterPlaneBreakawayDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterPlaneBreakawayDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Distance in meters for fighter plane breakaway.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterPlaneEngageUseSafePlanetPathing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterPlaneEngageUseSafePlanetPathing:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates fighter plane engage use safe planet pathing.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FighterPlaneOffsetRecalculationTime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FighterPlaneOffsetRecalculationTime:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates fighter plane offset recalculation time.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">GetSpeedFromSpawnGroup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GetSpeedFromSpawnGroup:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates get speed from spawn group.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseFighterDisengageDistancePlanet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterDisengageDistancePlanet:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates horse fighter disengage distance planet.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseFighterDisengageDistanceSpace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterDisengageDistanceSpace:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates horse fighter disengage distance space.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseFighterEngageDistancePlanet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterEngageDistancePlanet:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates horse fighter engage distance planet.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseFighterEngageDistanceSpace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterEngageDistanceSpace:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates horse fighter engage distance space.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseFighterWaypointAbandonTimeTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterWaypointAbandonTimeTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Time in seconds for horse fighter waypoint abandon time trigger.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseFighterWaypointWaitTimeTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseFighterWaypointWaitTimeTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Time in seconds for horse fighter waypoint wait time trigger.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseNauticalWaypointAbandonTimeTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseNauticalWaypointAbandonTimeTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Time in seconds for horse nautical waypoint abandon time trigger.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseNauticalWaypointWaitTimeTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseNauticalWaypointWaitTimeTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Time in seconds for horse nautical waypoint wait time trigger.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseflyWaypointAbandonTimeTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseflyWaypointAbandonTimeTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Remote Control tag. Seconds before abandoning the current offset waypoint and generating a new one.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HorseflyWaypointWaitTimeTrigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HorseflyWaypointWaitTimeTrigger:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Remote Control tag. Seconds the Horsefly waits at an offset waypoint before moving again. Overrides autopilot <code>WaypointWaitTimeTrigger</code> when greater than zero.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">Routes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[Routes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates routes.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UsePauseAutopilotFromSpawnGroup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UsePauseAutopilotFromSpawnGroup:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, uses pause autopilot from spawn group.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<!-- MES-WIKI-SOURCE-SYNC-END -->
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

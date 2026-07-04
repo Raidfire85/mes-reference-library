@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modding: Tutorial &amp; Guidelines: NPC Grid Setup Guidelines &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Modding: Tutorial &amp; Guidelines: NPC Grid Setup Guidelines</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>When setting up grids to be used as Prefabs for your NPC Encounters mod, there are some guidelines you should follow to ensure that they perform well, and provide and engaging experience to players.</p>
+<div class="markdown-heading"><h1 class="heading-element">Common Guidelines:</h1><a id="user-content-common-guidelines" class="anchor" aria-label="Permalink: Common Guidelines:" href="#common-guidelines"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>The following guidelines apply to most types of encounters. Encounter specific guidelines can be found further down the page.</p>
+<ul>
+<li>
+<p><strong>Doors</strong>: Ensure any doors that should be closed by default are already closed.</p>
+</li>
+<li>
+<p><strong>Programmable Blocks</strong>: Any Programmable Blocks that have scripts that do not directly contribute to the operation of the NPC ship (eg: inventory managers) should be removed from the programmable blocks. Even if the programmable block is disabled, having scripts in them when they spawn will still result in them compiling, which can cause extra lag during spawning.</p>
+</li>
+<li>
+<p><strong>Sensors and Timers</strong>: Similar to Programmable Blocks above, ensure that you disable any Timers or Sensors if they do not directly contribute to the operation of the NPC ship.</p>
+</li>
+<li>
+<p><strong>Refinery and Assembler</strong>: If you have any production blocks on the grid, you should consider disabling them. There's typically no reason for NPC grids to be processing resources in Refineries and Assemblers, and often just contributes to performance issues. O2/H2 generators are usually exempt from this because some NPC ships may require hydrogen to operate.</p>
+</li>
+<li>
+<p><strong>Inventory Size</strong>: If you are planning to pre-fill any of the inventories on your grid, try to do this in Survival with 1x Inventory Size enabled in the world options. This will ensure that regardless of what inventory setting a player uses, the inventory will not be truncated.</p>
+</li>
+<li>
+<p><strong>Inventory Survival Balance</strong>: If adding inventory to your grids, try to balance risk-vs-reward for your grid. A small little transport with 1 interior turret shouldn't be hauling a cargo of 25k Platinum ingot, etc. Ideally, larger and well defended grids would have better rewards available to them.</p>
+</li>
+<li>
+<p><strong>Power Sources</strong>: Consider using Batteries and other cheaper power sources on some of your smaller / easier grids. That way players will be less likely to gain access to Reactors and Uranium earlier in their game.</p>
+</li>
+<li>
+<p><strong>Weapons and Reactors</strong>: The Modular Encounters Spawner has a SpawnGroup tag that will automatically fill the inventories or weapons, reactors, parachutes, and gas generators. If you do not end up using the tag, ensure that you fill these blocks appropriately.</p>
+</li>
+<li>
+<p><strong>Antennas</strong>: Where possible, you should avoid using the HUD Text option on Antennas and rename the actual block instead. This will make things easier when working with the Spawner Prefab Manipulation options (for renaming blocks) and working with RivalAI Chat options.</p>
+</li>
+<li>
+<p><strong>Cockpit Orientation</strong>: It is important that all your grids have a Cockpit or Control Seat block (set as Main Cockpit) that is also facing the proper forward/upward directions of your ship. The Modular Encounters Spawner uses the cockpit to help orient the ship in the proper direction when it initially spawns. Remote Control blocks do not count as Cockpits.</p>
+</li>
+<li>
+<p><strong>Remote Control and Autopilot</strong>: If you are building a ship that will use a Remote Control for Auto-Pilot, it is important that the Remote Control block is oriented properly with the forward and upward directions of the ship. Otherwise, you may encounter strange behavior where a ship flies on its side or in the wrong direction.</p>
+</li>
+<li>
+<p><strong>Autopilot and Hydrogen</strong>: If you have built a ship that only uses hydrogen, it may struggle to fly when using Autopilot (this is the result of a game quirk/bug). An easy fix for this is to ensure you have at least 1 thruster of another type (ion for space, atmo for atmosphere) in each direction - this will allow the ship to use all thrusters properly.</p>
+</li>
+<li>
+<p><strong>Autopilot and Natural Gravity</strong>: If you are building a ship or drone that will use Autopilot in natural gravity, it is important that you include thrusters that can push the ship downwards. Another quirk/bug of  vanilla Autopilot is that if thrust in that direction is missing, the ship may try to reach the waypoint, but end up slowly drifting upwards perpetually.</p>
+</li>
+<li>
+<p><strong>Grid Pivot</strong>: In the Terminal Menu, there is an option to enable the Grid Pivot indicator. This allows you to tell the base directions of the grid (blue = forward | green = up | red = right). It's generally a good idea to design your grid to properly follow these directions.</p>
+</li>
+<li>
+<p><strong>Using Prefab "Drone Behavior" Tags</strong>: If you attach a Drone Behavior to a Prefab in one of your SpawnGroups, it should be noted that this will stop the ship from moving forward if it is a Space or Planetary Cargo Ship. It will remain idle until a player reaches its activation distance.</p>
+</li>
+<li>
+<p><strong>Block Count</strong>: You may want to try keeping the total block count of a single grid to be no higher than 5000 blocks. This is typically a good size to allow decent performance on most systems.</p>
+</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Space Cargo Ships:</h1><a id="user-content-space-cargo-ships" class="anchor" aria-label="Permalink: Space Cargo Ships:" href="#space-cargo-ships"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<strong>Subgrids</strong>: If you have smaller connected ships as subgrids on your main spawn, ensure that their inertia dampeners are disabled. Cargo Ships do not actually fly, but rather they are spawned with an initial velocity and just drift with the dampeners turned off. The spawner will disable dampeners of the main grid, but may not catch other attached grids.</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Random Encounters:</h1><a id="user-content-random-encounters" class="anchor" aria-label="Permalink: Random Encounters:" href="#random-encounters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<p><strong>Old Style Random Encounter</strong>: Before the survival update, Random Encounters were mostly unpowered neutral derelict ships which could easily be captured if found.</p>
+</li>
+<li>
+<p><strong>New Style Random Encounters</strong>: Random Encounters after the survival update are mostly owned by a hostile faction (usually SPRT), and have a Beacon or Antenna that actives for a moment before deactivating again. To recreate the signal effect they use, place two timers on the grid, Timer A should be set to turn On your Antenna/Beacon and to Start Timer B, Timer B should be set to turn Off Antenna/Beacon and Start Timer A. Set countdown on Timer A to about 1 minute, and set the countdown on Timer B to about 1-2 seconds.</p>
+</li>
+<li>
+<p><strong>Pirate Style Encounters</strong>: Present in both pre/post survival update, some Random Encounters will spawn as Pirates with fully visible signals, and will often spawn drones if you get too close. Drones are often spawned using Pirate Antenna Definitions.</p>
+</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Planetary Cargo Ships:</h1><a id="user-content-planetary-cargo-ships" class="anchor" aria-label="Permalink: Planetary Cargo Ships:" href="#planetary-cargo-ships"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<p><strong>Remote Control</strong>: Unlike Space Cargo Ships, ship that fly in Natural Gravity use the Remote Control AutoPilot to navigate. Because of this, it is very important that you include a Remote Control block in the proper orientation.</p>
+</li>
+<li>
+<p><strong>Cockpit Block</strong>: While this was already mentioned above, it is very important you have a proper cockpit/control seat on your ship. Otherwise the ship may spawn in an incorrect orientation, which could cause it to fall out of the sky before the Remote Control can correct it.</p>
+</li>
+<li>
+<p><strong>Hydrogen Powered Cargo Ships</strong>: If your Cargo Ship uses Hydrogen as a requirement to maintain altitude, ensure that you have plenty of Gas Tanks or Generators. The spawner will automatically replenish Ice on the grid while ships are classified as Planetary Cargo Ships.</p>
+</li>
+<li>
+<p><strong>Parachutes</strong>: Consider using Parachutes in your Planetary Cargo Ships. Often when a player manages to defeat one of these ships, there is very little to recover if it falls from the sky. Parachutes allow players to salvage the ship with better ease.</p>
+</li>
+<li>
+<p><strong>High Altitude Flight</strong>: When building a Planetary Cargo Ship grid, it is important that it is able to reach fairly high altitudes - about to where atmospheric thrusters begin to noticably lose effectiveness. When these ships spawn, they often try to maintain a fairly high altitude, so it's important they can fly at this height - otherwise they may not be able to make it to their despawn coordinates. You can use the <a href="https://gist.github.com/MeridiusIX/68e43b4a882029efa2666f4cc06e7278.html">script at this link</a> to easily verify if a ship is capable of flight under certain environmental conditions.</p>
+</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Planetary Installations:</h1><a id="user-content-planetary-installations" class="anchor" aria-label="Permalink: Planetary Installations:" href="#planetary-installations"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<p><strong>Cockpit Block</strong>: While this was already mentioned above, it is very important you have a proper cockpit/control seat on your station. Otherwise the station may spawn upside down or on its side.</p>
+</li>
+<li>
+<p><strong>Static Grid</strong>: When building a station that will spawn as a Planetary Installation, it is important that the station is saved as a Static Grid (ie: Station). If not, the spawner may try to spawn it as a non-static grid into the voxel, which will lead to explosions, clang, and other unpleasentness.</p>
+</li>
+<li>
+<p><strong>Grid Foundation</strong>: The Planetary Installation Spawner in MES does not always find perfectly flat terrain (this is by design, since most terrain is rarely perfectly flat). With this in mind, it's best to ensure your station designs have a bit of a thicker foundation that will spawn beneath the surface - otherwise you may see the bottom of the grid poking out from one part of the terrain, which looks silly. Designs using large beams or stilts work nicely as well.</p>
+</li>
+<li>
+<p><strong>Underground Stations</strong>: One feature of the Modular Encounters Spawner is the ability to support subterranean stations. This is achieved by first spawning the grid, then scanning the grid for air-tight rooms and removing the voxel material at the airtight grid cells. If you plan to use underground rooms in your stations, ensure that they are air-tight and that the air-tight passage extends to the surface somewhere.</p>
+</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Boss Encounters:</h1><a id="user-content-boss-encounters" class="anchor" aria-label="Permalink: Boss Encounters:" href="#boss-encounters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<strong>AI</strong>: Boss Encounters Grids do not automatically have AI loaded into them. Ensure that you use a Programmable Block script that gives your grid behavior, or use/create/modify one of the Drone Behaviors that can be attached to your Prefab when building your SpawnGroup.</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Economy:</h1><a id="user-content-economy" class="anchor" aria-label="Permalink: Economy:" href="#economy"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>With the update 1.192, Economy Features are now available to the Spawner. Here are some guidelines to follow:</p>
+<ul>
+<li>
+<p><strong>Multiple Store Blocks</strong>: If your grid has multiple store blocks, ensure that their conveyor networks are isolated from each-other. Otherwise, the spawner will add all the available inventory to a single store block.</p>
+</li>
+<li>
+<p><strong>Connectors</strong>: There are new option in the Connector Block that allow any ship to connect for trading purposes, and to auto-disconnect after a period of time. These are useful for ships/stations using economy features.</p>
+</li>
+<li>
+<p><strong>Doors</strong>: Doors now have an option to allow anybody to open them. This allows you to easily setup public areas for a grid, while restricting other areas.</p>
+</li>
+<li>
+<p><strong>Ship Inventory</strong>: Using the Spawner, the Store Block(s) are automatically configured to use inventory that is connected to the block for what it can sell. You can prefill grids with specific inventory, or you can utilize ContainerTypes definitions to automatically fill the inventories with semi-randomized items.</p>
+</li>
+<li>
+<p><strong>Naming Containers</strong>: You may want to give your Cargo Container specific names. This will make it easier for the Spawner to target them if using Automatic Inventory Replenishment via the ContainerTypes system.</p>
+</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Traps:</h1><a id="user-content-traps" class="anchor" aria-label="Permalink: Traps:" href="#traps"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>Clever placement of traps can really improve the experience for many players. Below are some examples of some that you can use on unsuspecting players.</p>
+<ul>
+<li>
+<p><strong>Interior Turrets</strong>: Try placing turrets in places that are not immediately visible, such as above doors, around corners, etc.</p>
+</li>
+<li>
+<p><strong>Welder Trap</strong>: Place a Welder Block beneath a Catwalk Block and having a sensor nearby that enables the welder if the player steps on the Catwalk.</p>
+</li>
+<li>
+<p><strong>Turret Door</strong>: Hide one or more turret behind a door (two non-windowed doors on their side work well for this), and place a sensor in the room that will trigger the doors to open.</p>
+</li>
+<li>
+<p><strong>Warhead Behind Thruster</strong>: This works best on Space Cargo Ships. Place a Thruster in front of an armed Warhead Block. If a player manages to capture the ship and turn on inertia dampeners, as soon as they thrust in the direction of the thruster near the warhead, it should detonate.</p>
+</li>
+<li>
+<p><strong>Ceiling Drop</strong>: This is more trollish than practical, but if you have a relatively large room, create a fake ceiling connected by a merge block. You may want to include artifical mass blocks on the ceiling part and a gravity generator on the ship part if this is not in natural gravity. Have a sensor in the room beneath the ceiling that releases the merge block (and activates the mass blocks if needed), and laugh as the ceiling makes engineers pancakes.</p>
+</li>
+<li>
+<p><strong>Swatter</strong>: A fake hangar door. Build a blast-door section connected to a rotor that sits upright. When a player gets close, have a sensor activate the rotor to quickly slam the blast-door section down at 90 degrees to the floor, crushing the player.</p>
+</li>
+<li>
+<p><strong>Gravity Slam</strong>: Hide a cluster of Gravity Generator blocks somewhere on a grid. Ensure the gravity field is set to push/pull towards the ceiling in the room. When a player gets close, have a sensor block enable the gravity generators - causing the player to slam into the ceiling at high speed.</p>
+</li>
+</ul>
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

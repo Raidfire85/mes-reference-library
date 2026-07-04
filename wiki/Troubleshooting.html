@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Troubleshooting</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>Here are some of the most common reasons you may not see encounters when you expect to, or why some encounters might not work properly:</p>
+<ul>
+<li>
+<p><strong>Planetary Installations Spawn Too High / Too Low From The Ground:</strong> This issue occurs when you're on a planet that is too far from the game world center (0,0,0). The effects don't usually become noticeable until after about 7500km-10000km. The reason this happens is because the vector calculations the game uses with voxels start to become less accurate at longer distances (this is a limitation of the game engine). A common cause of this issue is using worlds generated using the SEWorldGenPlugin, which can place planets at extreme distances from the center of the game world.</p>
+</li>
+<li>
+<p><strong>Ships Falling or Not Behaving Properly While Using Infestation Enabled or Crew Enabled mods:</strong> These mods add NPC characters to seats, or add spiders that infest ships. However, they can also interfere with the regular operation of NPC Ship behaviors because they will sometimes (intentionally) break the Remote Control block that controls all the custom behavior so alternative behavior can be used (eg infestation). Please refer to the settings on those individual mods to address this.</p>
+</li>
+<li>
+<p><strong>NPC Turrets Not Shooting:</strong> This is more common on servers, but can also happen in single player as well. <a href="https://support.keenswh.com/spaceengineers/pc/topic/22714-1-200-turrets-dont-target-unless-manually-forced.html" rel="nofollow">There is a known bug affecting turrets and their ability to acquire a target</a>. MES doesn't manage how NPC turrets work, it only puts ammo in the block and lets the vanilla logic do the rest. As a result, I cannot fix anything related to this on my end. One possible workaround is to use WeaponCore and its Vanilla Weapons Replacement mod, since it uses its own, <em>not broken</em>, targeting logic.</p>
+</li>
+<li>
+<p><strong>Dedicated Server and Selective Physics Updates:</strong> If you decide to use the Selective Physics Updates option introduced in game version 1.196, you must use a <code>SyncDistance</code> no lower than <code>10000</code>. If the SyncDistance is lower, then the Modular Encounters Systems will be disabled. The reason for this harsh requirement is because most NPC grids operate outside of the default SyncDistance of 3000, and this server option stops their movement (physics) unless a player is within the SyncDistance range. There is no reasonable way to work around this other than increasing the SyncDistance.</p>
+</li>
+<li>
+<p><strong>Reset Configurations:</strong> Sometimes I will update the default values in a SpawnType configuration file, however these changes will not automatically replace existing configurations in your existing saves. It's worth trying to reset your configuration files by either deleting them or using chat command <code>/MES.Settings.ResetAll</code>. If you've made changes to your configurations, you may want to backup those files before resetting them and testing with the fresh copies.</p>
+</li>
+<li>
+<p><strong>NPCs Are Spawning With No Ownership:</strong> This is almost always the result of the NPC Faction being tampered with in some way. This can happen if an admin removes the founder from an NPC faction, if a player joins the NPC faction using admin controls, or if another script/plugin makes changes to the faction by adding/removing identities from it. <strong>None of the mods I curate make these sorts of changes</strong>. Unfortunately, I don't have an easy suggestion on how to correct many of these situations, since NPC factions are only generated once per world by the game. If you know how to edit the save file and undo any breaking changes, that is often the best way to handle it - otherwise you may have to create a new save to get NPCs spawning with correct ownership again.</p>
+</li>
+<li>
+<p><strong>Check What Can Spawn In Your Vicinity:</strong> You can use a simple chat command to see what encounters are potentially eligible to spawm near you. The command is <code>/MES.Info.GetEligibleSpawnsAtPosition</code>. There is also a shorthand version of this command as well: <code>/MES.GESAP</code>. Depending on where you are and what mods you have loaded, it could just be an issue on being in an area where those mods cannot spawn encounters.</p>
+</li>
+<li>
+<p><strong>Too Many Spawns:</strong> If you are playing in multiplayer, you may notice an increase in spawn activity. This is because each player is tied to their own spawning events. So if a bunch of players are all in one area, then a bunch of encounters can potentailly appear pretty quickly. To mitigate this, use the config to reduce the <code>MaxShipsPerArea</code> property of each encounter type to something that is more managable for your play style. The config files also control the time between spawns as well.</p>
+</li>
+<li>
+<p><strong>Planetary Spawning:</strong> <em>Planetary Cargo Ships</em> will typically only spawn on full sized planets that have a rich atmosphere. If you are using a custom map with modded planets or planets that are too small in size, then the atmosphere required for spawning may not be enough and any spawn attempt will fail. For <em>Planetary Installations</em>, planets that have a rough surface will have less success in seeing installations appear - this is because the mod tries to find relatively flat areas to spawn these installations, so jagged and mountainous areas will likely not see many/any of these spawns.</p>
+</li>
+<li>
+<p><strong>Planetary Cargo Ships Falling Out Of The Sky:</strong> This is almost always the result of other mods that cause changes to Thurster Balance, Fuel and Hydrogen Re-Balance, and Aerodynamic/Realistic thrust. Many planetary cargo ships are not designed to use these systems and may not work properly as a result.</p>
+</li>
+<li>
+<p><strong>Critical Error In-Game Popup:</strong> These errors are often not a result of something wrong with the mod itself, but rather a result of Steam not downloading the mod properly. This can often be corrected by unsubscribing from the mod in question, waiting a little while, restarting steam, and then re-subscribing to the mod to force a new download.</p>
+</li>
+<li>
+<p><strong>Encounter Specific Limitations:</strong> Some mods may use additional requirements that must be met before their encounters are able to spawn. These often include conditions such as Threat Score, PCU, Faction Reputation, and other conditions. These conditions are often listed on the mod pages of those encounters, so ensure you read the mod descriptions so that you understand the required conditions for their encounters.</p>
+</li>
+<li>
+<p><strong>Ships/Drones Not Doing Anything:</strong> This is often because the drone encounters of a mod require the In-Game Scripts World Option to be enabled. When creating a new world, this option is typically OFF by default, so ensure you double check this to ensure it's ON.</p>
+</li>
+<li>
+<p><strong>Too Many Active Encounters:</strong> If encounters are not spawning, it may be because there are too many active encounters in the world. Try removing some grids using the Admin Tools (Alt+F10).</p>
+</li>
+<li>
+<p><strong>Current Game Version:</strong> I will often update the Modular Encounters Systems with new features as they are released with Base Game Major Updates. As a result, the framework is only compatible with the latest version of Space Engineers. If you attempt to run it in older versions, the scripts the framework uses to operate may not compile.</p>
+</li>
+<li>
+<p><strong>Drones Spawning From Antennas:</strong> These are not spawned through the Modular Encounters Systems, so they may have other factors that need to be considered such as the <strong>Enable Drones</strong> world option being turned on, and the <strong>Pirate PCU</strong> limit not being exceeded. Also, because these are not spawned through the Spawner mod, they will not be eligible for prefab manipulations provided by <code>NPC Weapon Upgrades</code> or <code>NPC Defense Shield Provider</code> mods.</p>
+</li>
+<li>
+<p><strong>Torch Concealment:</strong> Concealment Plugin for Torch has been known to cause issues with NPC grids on occasion. I am not familiar with the various settings that the plugin offers (I have not administrated a server in a very long time), but I believe there are options to exclude NPC grids from concealment. I recommend using that option if you run into conflict with the Modular Encounters mods. If issues persist, you may need to disable concealment to use this mod.</p>
+</li>
+<li>
+<p><strong>Circular Reference in Game Log:</strong> This message can appear sometimes in your game log. It's something that often appears when mods use another mod as a dependency (many encounter mods use the framework). The message is harmless and can be ignored.</p>
+</li>
+<li>
+<p><strong>Still Seeing Spawns After Removing The Framework:</strong> If you have removed the Modular Encounters Systems mod, but have left any mods that use it as a dependency, then it is likely those mods are causing it to continue loading. You would need to remove any mod using the framework as a dependency from your mod list.</p>
+</li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Advanced Encounters Troubleshooting</h1><a id="user-content-advanced-encounters-troubleshooting" class="anchor" aria-label="Permalink: Advanced Encounters Troubleshooting" href="#advanced-encounters-troubleshooting"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p>If you are still not seeing any encounters after following the above advice, then you can try some of these advanced steps:</p>
+<ul>
+<li>
+<p><strong>Checking The Spawn Record</strong>: Using the chat command <code>/MES.IGLSD.SpawnRecord</code> will generate a report that gets saved to your clipboard. You can paste this report into a program like Notepad and see what the result of various spawn attempts have been, and where they may be failing.</p>
+</li>
+<li>
+<p><strong>Enabling and Checking Debugs</strong>: If the above did not provide any useful answers, you should next try to enable some of the extended monitoring. Enter the chat commands <code>/MES.SpawnDebug.Spawning.true</code> and <code>/MES.SpawnDebug.SpawnGroup.true</code>. Continue to play the game for a while (maybe about 1 hour). If you do not want to wait for encounters to spawn naturally, then you can use the <code>/MES.Spawn.ForceSpawnTimer.Value</code> chat command (see <a href="Admin-&amp;-Debug-Options.html">This Page</a> for info on what you can replace <code>Value</code> with). After the game has run for some time (or you've used the ForceSpawnTimer command), use the chat command <code>/MES.IGLSD.Spawning</code> to generate a report that saves to your clipboard. Paste into Notepad or another app and check for messages that may indicate where the Spawning is getting stuck. Below I will cover some of the more common scenarios.</p>
+<ul>
+<li>
+<p><strong>Message: Eligible SpawnGroup Count 0</strong>: If you get this message in the Spawn Report, then it usually means that there are currently no eligible encounters for the area you're currently in. You can get more details on this by entering the chat command <code>/MES.IGLSD.SpawnGroup</code>,  pasting the result into Notepad, and seeing the provided reason that each SpawnGroup cannot spawn. This can be tricky to read at times because it prints a large list containing every SpawnGroup and why it can/can't spawn for EVERY spawn request. It's often better to start from the bottom and work upward to get the most recent data.</p>
+</li>
+<li>
+<p><strong>Message: SpawnGroup Path/Placement Invalid</strong>: If you get this message in the Spawn Report, then it usually means that while there are potential SpawnGroups that can spawn, they are currently unable to because of the surrounding environment. This could be due to a number of factors such as Planetary Cargo Ship encounters not having sufficient Air Density to fly (ie, atmosphere too shallow at position), terrain being too coarse / ragged for proper Planetary Installation placement, and more. Many of these reasons are covered in better detail earlier in this troubleshooting guide.</p>
+</li>
+</ul>
+</li>
+</ul>
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

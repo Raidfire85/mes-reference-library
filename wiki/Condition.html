@@ -1,0 +1,5106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Condition &middot; MES Reference Library</title>
+  <link rel="stylesheet" href="mes-wiki.css">
+</head>
+<body>
+
+<div class="wiki-tab-container">
+  <a class="wiki-tab" href="Home.html">
+<svg aria-hidden="true" class="octicon octicon-book" height="16" viewBox="0 0 16 16" width="16">
+  <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+    <span>Home</span>
+  </a>
+</div>
+
+<div class="wiki-header">
+  <h1 class="gh-header-title">Condition</h1>
+  <div class="gh-header-meta">Author: MeridiusIX</div>
+</div>
+
+<div class="wiki-container">
+    <div class="wiki-content">
+      <div class="markdown-body">
+<p>Condition Profiles in RivalAI allow you to define some extra conditions that must be met before a Trigger Profile can execute its Actions. It is important that you use a unique SubtypeId for each Condition Profile you create, otherwise they may not work correctly.</p>
+<p>Here's an example of how a Condition Profile Definition is setup:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>&lt;?xml version="1.0"?&gt;
+&lt;Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;EntityComponents&gt;
+
+    &lt;EntityComponent xsi:type="MyObjectBuilder_InventoryComponentDefinition"&gt;
+      &lt;Id&gt;
+          &lt;TypeId&gt;Inventory&lt;/TypeId&gt;
+          &lt;SubtypeId&gt;RAI-ExampleConditionProfile&lt;/SubtypeId&gt;
+      &lt;/Id&gt;
+      &lt;Description&gt;
+
+      [RivalAI Condition]
+      
+      [UseConditions:true]
+      [MatchAnyCondition:true]
+      
+      &lt;/Description&gt;
+      
+    &lt;/EntityComponent&gt;
+
+  &lt;/EntityComponents&gt;
+&lt;/Definitions&gt;
+</code></pre></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseConditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseConditions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the Condition Profile should be active / used.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MatchAnyCondition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MatchAnyCondition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to require if all conditions in the profile must be met (<code>false</code>), or if any condition can be met (<code>true</code>).</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckAllLoadedModIDs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckAllLoadedModIDs:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check for mods currently loaded in your game world. For this condition to be satisfied, all mod IDs included in <code>AllModIDsToCheck</code> must be present in the world.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AllModIDsToCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllModIDsToCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies a mod ID you want to have checked if <code>CheckAllLoadedModIDs</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Mod ID</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckAnyLoadedModIDs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckAnyLoadedModIDs:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check for mods currently loaded in your game world. For this condition to be satisfied, any mod IDs included in <code>AnyModIDsToCheck</code> must be present in the world.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AnyModIDsToCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AnyModIDsToCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies a mod ID you want to have checked if <code>CheckAnyLoadedModIDs</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Mod ID</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckTrueBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTrueBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check for Boolean Variables stored in the Drone Behavior that are <code>true</code>. All provided variables must be <code>true</code> for this condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TrueBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TrueBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a Boolean Variable you want to have checked if <code>CheckTrueBooleans</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AllowAnyTrueBoolean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowAnyTrueBoolean:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should pass if any of the provided boolean names evaluate as true.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckCustomCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckCustomCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check for Integer Counter Variables stored in the Drone Behavior. All provided variables must be equal or higher for this condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CustomCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of an Integer Counter Variable you want to have checked if <code>CheckCustomCounters</code> is <code>true</code>. You must also provide a value to <code>CustomCountersTargets</code> as well for this tag to work.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CustomCountersTargets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCountersTargets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the target value of an Integer Counter Variable you want to have checked if <code>CheckCustomCounters</code> is <code>true</code>. You must also provide a value to <code>CustomCounters</code> as well for this tag to work.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any interger equal or greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CounterCompareTypes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CounterCompareTypes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the logic used to determine if the behavior counter check passes or not for each provided counter. If no value is provided for a counter name, then <code>GreaterOrEqual</code> is used by default.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>GreaterOrEqual</code><br><code>Greater</code><br><code>Equal</code><br><code>NotEqual</code><br><code>Less</code><br><code>LessOrEqual</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AllowAnyValidCounter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowAnyValidCounter:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should pass if any of the provided counters pass their check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckTrueSandboxBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTrueSandboxBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check for Boolean Variables stored in the Save File that are <code>true</code>. All provided variables must be <code>true</code> for this condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">TrueSandboxBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TrueSandboxBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a Sandbox Boolean Variable you want to have checked if <code>CheckTrueSandboxBooleans</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AllowAnyTrueSandboxBoolean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowAnyTrueSandboxBoolean:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should pass if any of the provided boolean names evaluate as true.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckCustomSandboxCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckCustomSandboxCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check for Integer Counter Variables stored in the Save File. All provided variables must be equal or higher for this condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CustomSandboxCounters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomSandboxCounters:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of an Integer Counter Variable you want to have checked if <code>CheckCustomSandboxCounters</code> is <code>true</code>. You must also provide a value to <code>CustomSandboxCountersTargets</code> as well for this tag to work.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CustomSandboxCountersTargets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomSandboxCountersTargets:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the target value of an Integer Counter Variable you want to have checked if <code>CheckCustomSandboxCounters</code> is <code>true</code>. You must also provide a value to <code>CustomSandboxCounters</code> as well for this tag to work.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any interger equal or greater than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SandboxCounterCompareTypes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SandboxCounterCompareTypes:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the logic used to determine if the sandbox counter check passes or not for each provided counter. If no value is provided for a counter name, then <code>GreaterOrEqual</code> is used by default.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>GreaterOrEqual</code><br><code>Greater</code><br><code>Equal</code><br><code>NotEqual</code><br><code>Less</code><br><code>LessOrEqual</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AllowAnyValidSandboxCounter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowAnyValidSandboxCounter:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should pass if any of the provided counters pass their check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckGridSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckGridSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check the current NPC grid speed. For this condition to be satisfied, the grid speed must be between <code>MinGridSpeed</code> and <code>MaxGridSpeed</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinGridSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinGridSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The minimum grid speed that must be met if <code>CheckGridSpeed</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be lower than <code>MaxGridSpeed</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxGridSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxGridSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The maximum grid speed that must be met if <code>CheckGridSpeed</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be higher than <code>MinGridSpeed</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckMESBlacklistedSpawnGroups</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckMESBlacklistedSpawnGroups:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check the Modular Encounters Spawner NPC SpawnGroup Blacklist for entries. For this condition to be satisfied..</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnGroupBlacklistContainsAll</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnGroupBlacklistContainsAll:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a SpawnGroup SubtypeID you want checked for if <code>CheckMESBlacklistedSpawnGroups</code> is <code>true</code>. If this tag contains values, then <strong>All</strong> values must be present in the BlackList for the condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">SpawnGroupBlacklistContainsAny</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SpawnGroupBlacklistContainsAny:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a SpawnGroup SubtypeID you want checked for if <code>CheckMESBlacklistedSpawnGroups</code> is <code>true</code>. If this tag contains values, then <strong>Any</strong> of values must be present in the BlackList for the condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseRequiredFunctionalBlocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseRequiredFunctionalBlocks:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the condition should check for certain blocks that exist in a functional status on the grid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RequiredAllFunctionalBlockNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RequiredAllFunctionalBlockNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a Block you want checked for if <code>UseRequiredFunctionalBlocks</code> is <code>true</code>. If this tag contains values, then the grid must have <strong>All</strong> blocks (in a working/functional state) with names specified for the condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RequiredAnyFunctionalBlockNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RequiredAnyFunctionalBlockNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a Block you want checked for if <code>UseRequiredFunctionalBlocks</code> is <code>true</code>. If this tag contains values, then the grid must have <strong>Any</strong> blocks (in a working/functional state) with names specified for the condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RequiredNoneFunctionalBlockNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RequiredNoneFunctionalBlockNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name of a Block you want checked for if <code>UseRequiredFunctionalBlocks</code> is <code>true</code>. If this tag contains values, then the grid must have <strong>No</strong> blocks (in a working/functional state) with names specified for the condition to be satisfied.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any name string excluding characters <code>:</code>, <code>[</code>, <code>]</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckTargetAltitudeDifference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTargetAltitudeDifference:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the condition should check the altitude difference between itself and its current target. Only works if NPC has a valid target and the NPC is in planetary gravity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinTargetAltitudeDifference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetAltitudeDifference:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The minimum target altitude difference that must be met if <code>CheckTargetAltitudeDifference</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be lower than <code>MaxTargetAltitudeDifference</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxTargetAltitudeDifference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetAltitudeDifference:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The maximum target altitude difference that must be met if <code>CheckTargetAltitudeDifference</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be higher than <code>MinTargetAltitudeDifference</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckTargetDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTargetDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the condition should check the distance difference between itself and its current target. Only works if NPC has a valid target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinTargetDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The minimum target distance difference that must be met if <code>CheckTargetDistance</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be lower than <code>MaxTargetDistance</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxTargetDistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetDistance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The maximum target distance difference that must be met if <code>CheckTargetDistance</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be higher than <code>MinTargetDistance</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckTargetAngleFromForward</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTargetAngleFromForward:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the condition should check the angle difference between itself (forward direction) and its current target. Only works if NPC has a valid target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinTargetAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The minimum target angle difference that must be met if <code>CheckTargetAngleFromForward</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be lower than <code>MaxTargetAngle</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxTargetAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The maximum target angle difference that must be met if <code>CheckTargetAngleFromForward</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be higher than <code>MinTargetAngle</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckIfTargetIsChasing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfTargetIsChasing:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the condition should check the velocity direction angle from the current target to the NPC. Only works if NPC has a valid target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinTargetChaseAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetChaseAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The minimum target velocity angle difference that must be met if <code>CheckIfTargetIsChasing</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be lower than <code>MaxTargetChaseAngle</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxTargetChaseAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetChaseAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The maximum target velocity angle difference that must be met if <code>CheckIfTargetIsChasing</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be higher than <code>MinTargetChaseAngle</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckIfGridNameMatches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfGridNameMatches:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the condition should check the name of the NPC CubeGrid matches a provided value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AllowPartialGridNameMatches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowPartialGridNameMatches:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the NPC CubeGrid name can be a partial match instead of exact.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">GridNamesToCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GridNamesToCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies the name(s) to check against the NPC CubeGrid name.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Grid Name</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">AltitudeCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AltitudeCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the Altitude of the NPC should be checked for min/max values.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The minimum NPC altitude that must be met if <code>AltitudeCheck</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be lower than <code>MaxAltitude</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">The maximum NPC altitude that must be met if <code>AltitudeCheck</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any number equal or greater than <code>0</code><br>Must be higher than <code>MinAltitude</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckIfDamagerIsPlayer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfDamagerIsPlayer:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If trigger was activated by a Damage event, this tag specifies if the Damager should be a Player Identity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckIfDamagerIsNpc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfDamagerIsNpc:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If trigger was activated by a Damage event, this tag specifies if the Damager should be an NPC Identity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckIfTargetIsPlayerOwned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfTargetIsPlayerOwned:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the current NPC targer should be a Player Owned entity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckIfTargetIsNpcOwned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfTargetIsNpcOwned:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Specifies if the current NPC targer should be an NPC Owned entity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckCommandGridValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckCommandGridValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If trigger was activated by a Command event, this tag specifies if a check should be performed on the Grid Value (aka Threat Score) of the NPC that sent the command.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CommandGridValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandGridValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If using <code>CheckCommandGridValue</code>, this tag specifies the Grid Value that the received Grid Value from the command should be compared against.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Greater Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckCommandGridValueCompare</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckCommandGridValueCompare:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If using <code>CheckCommandGridValue</code>, this tag specifies how the Received Grid Value is compared against the value provided in <code>CommandGridValue</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Equal</code><br><code>NotEqual</code><br><code>Greater</code><br><code>GreaterOrEqual</code><br><code>Less</code><br><code>LessOrEqual</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CompareCommandGridValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareCommandGridValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If trigger was activated by a Command event, this tag specifies if a check should be performed on the Grid Value (aka Threat Score) of the NPC that sent the command. This check compares the received Grid Value directly against the value of the NPC that received the command / activated the trigger.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CompareCommandGridValueMode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareCommandGridValueMode:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If using <code>CompareCommandGridValue</code>, this tag specifies how the Received Grid Value is compared against the Grid Value of the NPC.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">
+<code>Equal</code><br><code>NotEqual</code><br><code>Greater</code><br><code>GreaterOrEqual</code><br><code>Less</code><br><code>LessOrEqual</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CompareCommandGridValueSelfMultiplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareCommandGridValueSelfMultiplier:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">If using <code>CompareCommandGridValue</code>, this tag specifies a multiplier that is applied to the Grid Value of this NPC before the comparing of values is completed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Values:</td>
+<td align="left">Any Number Greater Than <code>0</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tag Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CommandGravityCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandGravityCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if both NPCs involved with transmission of a command are inside the same gravity field.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CommandGravityMatches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandGravityMatches:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the gravity of both NPCs involved with the transmission of a Command should match.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">UseFailCondition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseFailCondition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if the Condition Profile should pass if the conditions fail. Should all conditions pass, then the profile would evalate as failed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckForBlocksOfType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckForBlocksOfType:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies if certain working/functional block types should be searched for on the grid. If all provided types are found (at least one block of each type), then this condition passes.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">BlocksOfType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BlocksOfType:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies the types of blocks that are searched for on the grid.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Block TypeId<br>eg: <code>MyObjectBuilder_BatteryBlock</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckHorizonAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckHorizonAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check the NPC current forward direction against the angle of the horizon (90 degree from 'up' on a planet)</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MinHorizonAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinHorizonAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify the minimum angle that is checked against the horizon if using <code>CheckHorizonAngle</code>
+</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Greater/Equal To <code>0</code><br><code>Value</code> must be Less Than or Equal to <code>MaxHorizonAngle</code> if provided.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">MaxHorizonAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxHorizonAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify the maximum angle that is checked against the horizon if using <code>CheckHorizonAngle</code>
+</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Greater/Equal To <code>0</code><br><code>Value</code> must be Less Than or Equal to <code>MinHorizonAngle</code> if provided.</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckForSpawnConditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckForSpawnConditions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check if the encounter was spawned using a specific SpawnCondition Profile.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">RequiredSpawnConditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[RequiredSpawnConditions:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify one or more SpawnCondition Profile SubtypeIds that will be checked against if using <code>CheckForSpawnConditions</code>.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">CheckForPlanetaryLane</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckForPlanetaryLane:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to check if the encounter is currently inside or outside of a Planetary Lane.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">PlanetaryLanePassValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlanetaryLanePassValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag specifies whether the grid must be in a planetary lane in order for the <code>CheckForPlanetaryLane</code> check to pass.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IsAttackerHostile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsAttackerHostile:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should check if the attacking entity has a hostile relation with the NPC. This tag should only be used on triggers using the <code>Damage</code> type.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IsAttackerNeutral</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsAttackerNeutral:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should check if the attacking entity has a neutral relation with the NPC. This tag should only be used on triggers using the <code>Damage</code> type.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:                               </th>
+<th align="left">IsAttackerFriendly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsAttackerFriendly:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This tag allows you to specify if the condition should check if the attacking entity has a friendly relation with the NPC. This tag should only be used on triggers using the <code>Damage</code> type.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">
+<code>true</code><br><code>false</code>
+</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<!-- MES-WIKI-SOURCE-SYNC-START -->
+<div class="mes-wiki-sync-section">
+<div class="markdown-heading"><h2 class="heading-element">Additional Tags (MES Source Sync)</h2></div>
+<p>The tags below exist in the current MES workshop/GitHub source but were not present in the original MeridiusIX wiki page. Descriptions are generated from MES source code (ActionSystem handlers, profile fields, and tag naming).</p>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AllPlayersReputationMustMatch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllPlayersReputationMustMatch:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates all players reputation must match.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AllowAnyFalseBoolean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowAnyFalseBoolean:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, allows any false boolean.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AllowAnyFalseSandboxBoolean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AllowAnyFalseSandboxBoolean:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, allows any false sandbox boolean.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">AltitudeCheckIgnoreWater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[AltitudeCheckIgnoreWater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates altitude check ignore water.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">BehaviorModeCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BehaviorModeCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates behavior mode check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">BehaviorSubclass</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BehaviorSubclass:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Enum value for behavior subclass.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">BehaviorSubclassCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[BehaviorSubclassCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates behavior subclass check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckFalseBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckFalseBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks false booleans.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckFalseSandboxBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckFalseSandboxBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks false sandbox booleans.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckGridSize</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckGridSize:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks grid size.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckGridStatic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckGridStatic:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks grid static.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckGridVerticalSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckGridVerticalSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks grid vertical speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckHealthPercentage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckHealthPercentage:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks health percentage.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckIfSpawnGroupExist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckIfSpawnGroupExist:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks if spawn group exist.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckInSufficientUpwardThrust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckInSufficientUpwardThrust:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks in sufficient upward thrust.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckPlayerCondition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckPlayerCondition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks player condition.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckPlayerIdentitySandboxList</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckPlayerIdentitySandboxList:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks player identity sandbox list.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckPlayerReputation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckPlayerReputation:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks player reputation.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckReputationwithFaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckReputationwithFaction:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for check reputationwith faction.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckSufficientUpwardThrust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckSufficientUpwardThrust:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks sufficient upward thrust.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckTargetChaseSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTargetChaseSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">This can become negative. Neat.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckTargetSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckTargetSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks target speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScore:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks threat score.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreFromClosestPlayerPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreFromClosestPlayerPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks threat score from closest player position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreFromTargetPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreFromTargetPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks threat score from target position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreGridConfiguration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreGridConfiguration:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures check threat score grid configuration.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreIncludeOtherNpcOwners</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreIncludeOtherNpcOwners:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks threat score include other npc owners.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreMaximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreMaximum:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for check threat score maximum.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreMinimum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreMinimum:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for check threat score minimum.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckThreatScoreRadius</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckThreatScoreRadius:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Radius in meters for check threat score.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CheckWaypointAngleFromForward</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CheckWaypointAngleFromForward:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, checks waypoint angle from forward.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CommandCheckFromParent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandCheckFromParent:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates command check from parent.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CommandCheckRelationSenderReceiver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandCheckRelationSenderReceiver:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates command check relation sender receiver.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CommandFromParent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandFromParent:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates command from parent.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CommandRelation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CommandRelation:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Enum value for command relation.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">MES enum value (see Threat Score / Target guides)</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScore:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, compares threat score.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreFromTargetPosition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreFromTargetPosition:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, compares threat score from target position.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreGridConfiguration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreGridConfiguration:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures compare threat score grid configuration.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreIncludeOtherNpcOwners</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreIncludeOtherNpcOwners:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, compares threat score include other npc owners.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreMode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreMode:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Enum value for compare threat score mode.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreRadius</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreRadius:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Radius in meters for compare threat score.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreSelfValueMultiplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreSelfValueMultiplier:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for compare threat score self value multiplier.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreUseSelfValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreUseSelfValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, compares threat score use self value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CompareThreatScoreValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CompareThreatScoreValue:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for compare threat score value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CurrentBehaviorMode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CurrentBehaviorMode:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Enum value for current behavior mode.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomCountersTargetOverrideCommandScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCountersTargetOverrideCommandScore:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates custom counters target override command score.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomCountersTargetOverrideSelfScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCountersTargetOverrideSelfScore:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates custom counters target override self score.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">CustomCountersVariables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[CustomCountersVariables:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures custom counters variables.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">ExistingSpawnGroupName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[ExistingSpawnGroupName:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Text value for existing spawn group name.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FalseBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FalseBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for false booleans.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">FalseSandboxBooleans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[FalseSandboxBooleans:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">List of values for false sandbox booleans.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">GravityCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GravityCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates gravity check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">GridSizeLarge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GridSizeLarge:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates grid size large.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">GridStatic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[GridStatic:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates grid static.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HasAntennaForBroadcast</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HasAntennaForBroadcast:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates has antenna for broadcast.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HasNoWeapons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HasNoWeapons:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates has no weapons.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HasTarget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HasTarget:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates has target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">HasWeapons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[HasWeapons:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates has weapons.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">InSufficientUpwardThrustDirection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[InSufficientUpwardThrustDirection:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Enum value for in sufficient upward thrust direction.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">InSufficientUpwardThrustTolerance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[InSufficientUpwardThrustTolerance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for in sufficient upward thrust tolerance.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IsOnDarkSide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsOnDarkSide:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates is on dark side.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IsTargetGrid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsTargetGrid:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">A is target gr profile or id value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IsTargetPlayer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsTargetPlayer:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates is target player.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IsTargetStatic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsTargetStatic:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates is target static.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">IsUnderwater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[IsUnderwater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates is underwater.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MatchTerrainType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MatchTerrainType:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, requires terrain type to match.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxAccumulatedDamage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxAccumulatedDamage:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for accumulated damage.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxDistanceUnderwater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxDistanceUnderwater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for distance underwater.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxGravity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxGravity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Rotation Settings setting: max gravity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxGridVerticalSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxGridVerticalSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for grid vertical speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxPercentageOfHealthRemaining</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxPercentageOfHealthRemaining:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for percentage of health remaining.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxPercentageOfWeaponsRemaining</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxPercentageOfWeaponsRemaining:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for percentage of weapons remaining.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxPlayerReputation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxPlayerReputation:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures max player reputation.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxPlayerReputationDistanceCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxPlayerReputationDistanceCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for player reputation distance check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxTargetAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for target altitude.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxTargetChaseSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetChaseSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for target chase speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxTargetDistanceUnderwater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetDistanceUnderwater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for target distance underwater.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxTargetSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxTargetSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for target speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MaxWaypointAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MaxWaypointAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Maximum value for waypoint angle.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinAccumulatedDamage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinAccumulatedDamage:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for accumulated damage.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinDistanceUnderwater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinDistanceUnderwater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for distance underwater.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinGravity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinGravity:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Rotation Settings setting: min gravity.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinGridVerticalSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinGridVerticalSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for grid vertical speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinPercentageOfHealthRemaining</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinPercentageOfHealthRemaining:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for percentage of health remaining.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinPercentageOfWeaponsRemaining</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinPercentageOfWeaponsRemaining:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for percentage of weapons remaining.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinPlayerReputation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinPlayerReputation:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Configures min player reputation.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Integer Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinTargetAltitude</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetAltitude:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for target altitude.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinTargetChaseSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetChaseSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for target chase speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinTargetDistanceUnderwater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetDistanceUnderwater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for target distance underwater.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinTargetSpeed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinTargetSpeed:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for target speed.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">MinWaypointAngle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[MinWaypointAngle:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Minimum value for waypoint angle.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">NoActiveContracts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[NoActiveContracts:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, enables or applies active contracts.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">NoTarget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[NoTarget:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, enables or applies target.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">PlayerConditionIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerConditionIds:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, plays er condition ids.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">PlayerIdentityInSandboxList</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerIdentityInSandboxList:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, plays er identity in sandbox list.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">PlayerIdentityMatches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerIdentityMatches:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, plays er identity matches.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">PlayerIdentitySandboxListId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[PlayerIdentitySandboxListId:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">A player identity sandbox list profile or id value.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any String Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">SufficientUpwardThrustDirection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SufficientUpwardThrustDirection:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Enum value for sufficient upward thrust direction.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">See MES source / enum definition</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">SufficientUpwardThrustTolerance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[SufficientUpwardThrustTolerance:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">Numeric value for sufficient upward thrust tolerance.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Any Number Value</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TargetAltitudeCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TargetAltitudeCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates target altitude check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TargetIsUnderwater</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TargetIsUnderwater:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates target is underwater.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TargetUnderwaterCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TargetUnderwaterCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates target underwater check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TerrainTypeBlacklistNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TerrainTypeBlacklistNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more terrain type blacklist profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">TerrainTypeWhitelistNames</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[TerrainTypeWhitelistNames:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">One or more terrain type whitelist profile or id values (comma-separated).</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left">Comma-separated list of values</td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UnderwaterCheck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UnderwaterCheck:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, activates underwater check.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+<div class="mes-tag-table-wrap"><table role="table">
+<thead>
+<tr>
+<th align="left">Tag:</th>
+<th align="left">UseAccumulatedDamageWatcher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Tag Format:</td>
+<td align="left"><code>[UseAccumulatedDamageWatcher:Value]</code></td>
+</tr>
+<tr>
+<td align="left">Description:</td>
+<td align="left">When <code>true</code>, uses accumulated damage watcher.</td>
+</tr>
+<tr>
+<td align="left">Allowed Value(s):</td>
+<td align="left"><code>true</code><br><code>false</code></td>
+</tr>
+<tr>
+<td align="left">Multiple Tags Allowed:</td>
+<td align="left">No</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<!-- MES-WIKI-SOURCE-SYNC-END -->
+      </div>
+    </div>
+
+  <div class="wiki-sidebar">
+    <div class="wiki-rightbar">
+      <div class="Box Box--condensed">
+        <div class="Box-body wiki-custom-sidebar markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Player Support</h1><a id="user-content-player-support" class="anchor" aria-label="Permalink: Player Support" href="#player-support"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Encounter-Guide.html">Encounter Guide</a></li>
+<li><a href="Frequently-Asked-Questions.html">FAQs</a></li>
+<li><a href="Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="Bugs,-Issues,-or-Crashes.html">Bugs, Issues, or Crashes</a></li>
+<li><a href="Economy-Stations-FAQ.html">Economy Stations FAQ</a></li>
+<li><a href="Mod-Republishing-and-Reuse.html">Mod Republishing Guidelines</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Admin &amp; Configuration</h1><a id="user-content-admin--configuration" class="anchor" aria-label="Permalink: Admin &amp; Configuration" href="#admin--configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="General-Settings.html">General Settings</a></li>
+<li><a href="Grid-Settings.html">Grid Settings</a></li>
+<li><a href="Combat-Settings.html">Combat Settings</a></li>
+<li><a href="Space-Cargo-Ships.html">Space Cargo Ships</a></li>
+<li><a href="Random-Encounters.html">Random Encounters</a></li>
+<li><a href="Planetary-Cargo-Ships.html">Planetary Cargo Ships</a></li>
+<li><a href="Planetary-Installations.html">Planetary Installations</a></li>
+<li><a href="Boss-Encounters.html">Boss Encounters</a></li>
+<li><a href="Creatures.html">Creatures</a></li>
+<li><a href="Bot-Spawn.html">AiEnabled Bot Spawning</a></li>
+<li><a href="Wave-Spawners.html">Wave Spawners</a></li>
+<li><a href="Clean-Up.html">Clean-Up</a></li>
+<li><a href="Spawn-Filtering.html">Spawn Filtering</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
+<li><a href="Admin-&-Debug-Options.html">Admin &amp; Debug Options</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modding</h1><a id="user-content-modding" class="anchor" aria-label="Permalink: Modding" href="#modding"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li>
+<a href="Spawning-Getting-Started.html"><strong>Spawning (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="SpawnGroup.html">SpawnGroup</a>
+<ul>
+<li>
+<a href="Spawning-Conditions.html">Spawning Conditions</a>
+<ul>
+<li><a href="Zone-Conditions.html">Zone Conditions</a></li>
+</ul>
+</li>
+<li><a href="Spawning-Conditions-Groups.html">Spawning Conditions Groups</a></li>
+<li>
+<a href="Manipulation.html">Manipulation</a>
+<ul>
+<li><a href="Block-Replacement.html">Block Replacement</a></li>
+<li><a href="Dereliction.html">Dereliction</a></li>
+<li><a href="Loot.html">Loot</a></li>
+<li><a href="Loot-Profile-Group.html">Loot Profile Group</a></li>
+<li><a href="Weapon-Mod-Rules.html">Weapon Mod Rules</a></li>
+</ul>
+</li>
+<li><a href="Manipulation-Groups.html">Manipulation Groups</a></li>
+<li><a href="Prefab-Data.html">Prefab Data</a></li>
+<li><a href="Replenishment.html">Replenishment</a></li>
+</ul>
+</li>
+<li><a href="Zone.html">Zone</a></li>
+</ul>
+</li>
+<li>
+<a href="Behaviors-Getting-Started.html"><strong>Behaviors (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Core-Behavior.html">Core Behavior</a>
+<ul>
+<li><a href="Autopilot.html">Autopilot</a></li>
+<li><a href="Command.html">Command</a></li>
+<li><a href="Datapad.html">Datapad</a></li>
+<li><a href="Target.html">Target</a></li>
+<li>
+<a href="Trigger.html">Trigger</a>
+<ul>
+<li><a href="Condition.html">Condition</a></li>
+<li>
+<a href="Action.html">Action</a>
+<ul>
+<li><a href="Bot-Spawn.html">Bot Spawn</a></li>
+<li><a href="Chat.html">Chat</a></li>
+<li><a href="Spawn.html">Spawn</a></li>
+<li><a href="TextTemplate.html">TextTemplate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Trigger-Group.html">Trigger Group</a></li>
+<li><a href="Waypoint.html">Waypoint</a></li>
+<li><a href="Weapons.html">Weapons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="Events-Getting-Started.html"><strong>Events (Getting Started)</strong></a>
+<ul>
+<li>
+<a href="Event.html">Event</a>
+<ul>
+<li><a href="Event-Condition.html">Event Condition</a></li>
+<li>
+<a href="Event-Action.html">Event Action</a>
+<ul>
+<li><a href="Custom-Event-Actions-and-ScenarioTools.html">Custom Event Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Player-Condition-Profile.html"><strong>Player Conditions (New)</strong></a></li>
+<li><a href="Contract-Block-Profile.html"><strong>Contract Block</strong></a></li>
+<li><a href="Faction-Icon-Profile.html"><strong>Faction Icon</strong></a></li>
+<li><a href="Mission-Profile.html"><strong>Mission</strong></a></li>
+<li><a href="Prefab-Gravity-Profile.html"><strong>Prefab Gravity</strong></a></li>
+<li><a href="Safezone-Profile.html"><strong>Safezone</strong></a></li>
+<li><a href="Shipyard-Profile.html"><strong>Shipyard</strong></a></li>
+<li><a href="Store-Profile.html"><strong>Store</strong></a></li>
+<li><a href="Suit-Upgrades-Profile.html"><strong>Suit Upgrades</strong></a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Template / Example Files</h1><a id="user-content-template--example-files" class="anchor" aria-label="Permalink: Template / Example Files" href="#template--example-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="SpawnGroup-Template.html">SpawnGroup.sbc</a></li>
+<li><a href="Factions-Template.html">Factions.sbc</a></li>
+</ul>
+<div class="markdown-heading"><h1 class="heading-element">Modder Resources</h1><a id="user-content-modder-resources" class="anchor" aria-label="Permalink: Modder Resources" href="#modder-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul>
+<li><a href="Block-Replacement-Profiles.html">Block Replacement Profiles</a></li>
+<li><a href="Encounter-Attributes.html">Encounter Attributes</a></li>
+<li><a href="Loot-Profiles.html">Loot Profiles</a></li>
+<li><a href="NPC-Grid-Setup-Guidelines.html">NPC Grid Setup Guidelines</a></li>
+<li><a href="Random-Name-Generator-Guide.html">Random Name Generator Guide</a></li>
+<li><a href="Scripting-API.html">Scripting API</a></li>
+<li><a href="Troubleshooting-Tips.html">Troubleshooting Tips</a></li>
+<li><a href="Threat-Score-Guide.html">Threat Score Guide</a></li>
+<li><a href="Tutorials.html">Tutorials</a></li>
+</ul>
+</div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
