@@ -1,6 +1,6 @@
 # MES Reference Library
 
-Offline **Modular Encounter Systems (MES)** and **RivalAI** wiki reference for [VS Code](https://code.visualstudio.com/) and [Cursor](https://cursor.com/), with optional **GitHub sync** and built-in **SBC validation** for Space Engineers mod authors.
+Offline **Modular Encounter Systems (MES)** and **RivalAI** wiki reference for [VS Code](https://code.visualstudio.com/), with optional **GitHub sync** and built-in **SBC validation** for Space Engineers mod authors.
 
 > **Unofficial community tool** — not affiliated with or endorsed by MeridiusIX.
 
