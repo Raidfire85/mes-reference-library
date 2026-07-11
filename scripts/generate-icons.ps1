@@ -1,5 +1,5 @@
 # Generates extension icons from media/MeridiousIcon.jpg (MES helmet portrait).
-# - icon.png (root + media): marketplace icon with solid background (visible on Open VSX dark UI)
+# - icon.png (root + media): MeridiousIcon scaled for VS Marketplace and Open VSX
 # - activitybar.svg: single-color silhouette with fill="currentColor" (VS/Cursor tint per theme)
 $ErrorActionPreference = 'Stop'
 
@@ -52,28 +52,20 @@ function Test-MaskPixel($bmp, $x, $y) {
 }
 
 function New-MarketplaceIcon([int]$size) {
-    $mask = New-PortraitMask 96
-    $bmp = New-Object System.Drawing.Bitmap -ArgumentList @($size, $size)
-    $g = [System.Drawing.Graphics]::FromImage($bmp)
-    $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
-    $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-    $g.Clear([System.Drawing.Color]::FromArgb(255, 30, 72, 110))
-
-    $pad = 16
-    $drawSize = $size - (2 * $pad)
-    for ($y = 0; $y -lt $drawSize; $y++) {
-        for ($x = 0; $x -lt $drawSize; $x++) {
-            $sx = [int]($x * $mask.Width / $drawSize)
-            $sy = [int]($y * $mask.Height / $drawSize)
-            if (Test-MaskPixel $mask $sx $sy) {
-                $bmp.SetPixel($x + $pad, $y + $pad, [System.Drawing.Color]::White)
-            }
-        }
+    $source = [System.Drawing.Image]::FromFile($sourcePath)
+    try {
+        $bmp = New-Object System.Drawing.Bitmap -ArgumentList @($size, $size)
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+        $g.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
+        $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+        $g.Clear([System.Drawing.Color]::White)
+        $g.DrawImage($source, 0, 0, $size, $size)
+        $g.Dispose()
+        return $bmp
+    } finally {
+        $source.Dispose()
     }
-
-    $mask.Dispose()
-    $g.Dispose()
-    return $bmp
 }
 
 function Export-ActivityBarSvg([int]$size, [string]$path) {
@@ -110,5 +102,5 @@ Save-Png $marketplaceIcon $mediaIconPath
 Copy-Item -Path $mediaIconPath -Destination $rootIconPath -Force
 Export-ActivityBarSvg 24 $activitySvgPath
 
-Write-Host "Wrote $mediaIconPath and $rootIconPath (marketplace: white portrait on steel-blue background)"
+Write-Host "Wrote $mediaIconPath and $rootIconPath (marketplace/Open VSX: MeridiousIcon.jpg at 128x128)"
 Write-Host "Wrote $activitySvgPath (activity bar: currentColor, theme-tinted by VS Code/Cursor)"

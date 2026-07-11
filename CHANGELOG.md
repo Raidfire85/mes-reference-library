@@ -2,6 +2,12 @@
 
 All notable changes to the MES Reference Library extension are documented here.
 
+## [3.19.2] - 2026-07-12
+
+### Fixed
+
+- VS Marketplace and Open VSX icon restored to **MeridiousIcon** (scaled `MeridiousIcon.jpg` portrait) instead of the stylized blue/white silhouette.
+
 ## [3.19.1] - 2026-07-12
 
 ### Fixed
