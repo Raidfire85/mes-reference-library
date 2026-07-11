@@ -2,7 +2,7 @@
   "name": "mes-reference-library",
   "displayName": "MES Reference Library",
   "description": "Unofficial MES/RivalAI modding tool for Space Engineers. Offline community wiki (~80+ pages) with search and bookmarks. Validates .sbc files: profile headers, tags, cross-file references, and mod reports. Optional GitHub sync updates wiki from MES-WebWiki and validator tags from MES source. Works fully offline after install. Not affiliated with MeridiusIX.",
-  "version": "3.19.2",
+  "version": "3.19.3",
   "publisher": "Raidfire",
   "license": "MIT",
   "repository": {

@@ -3,191 +3,7 @@
   "runs": [
     {
       "date": "2026-07-11",
-      "source": "MES master branch",
-      "highlights": [
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Faction Icon",
-              "mdFile": "Faction-Icon-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": " — 3 new tags documented."
-            }
-          ]
-        },
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Safezone",
-              "mdFile": "Safezone-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": " — 18 new tags documented."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-07-11",
-      "source": "GitHub master",
-      "highlights": [
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Block Replacement",
-              "mdFile": "Block-Replacement.md"
-            },
-            {
-              "type": "text",
-              "value": " — 3 new tags documented."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-07-11",
-      "source": "GitHub master",
-      "highlights": [
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Shipyard",
-              "mdFile": "Shipyard-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Mission",
-              "mdFile": "Mission-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Safezone",
-              "mdFile": "Safezone-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", and 4 more pages — 102 new tags documented."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-07-11",
-      "source": "MES master branch",
-      "highlights": [
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Shipyard",
-              "mdFile": "Shipyard-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Mission",
-              "mdFile": "Mission-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Safezone",
-              "mdFile": "Safezone-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", and 6 more pages — 108 new tags documented."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-07-09",
-      "source": "GitHub master",
-      "highlights": [
-        {
-          "segments": [
-            {
-              "type": "text",
-              "value": "Sidebar navigation updated for new profile pages."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-07-09",
-      "source": "MES master branch",
-      "highlights": [
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Shipyard",
-              "mdFile": "Shipyard-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Mission",
-              "mdFile": "Mission-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Safezone",
-              "mdFile": "Safezone-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": ", and 6 more pages — 108 new tags documented."
-            }
-          ]
-        },
-        {
-          "segments": [
-            {
-              "type": "text",
-              "value": "Sidebar navigation updated for new profile pages."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-07-09",
-      "source": "MES master branch",
+      "source": "Local MES source",
       "highlights": [
         {
           "segments": [
@@ -197,42 +13,20 @@
             },
             {
               "type": "link",
-              "title": "Block Replacement",
-              "mdFile": "Block-Replacement.md"
-            },
-            {
-              "type": "text",
-              "value": " profile page — 3 tags documented."
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
               "title": "Contract Block",
               "mdFile": "Contract-Block-Profile.md"
             },
             {
               "type": "text",
               "value": " profile page — 3 tags documented."
-            },
+            }
+          ]
+        },
+        {
+          "segments": [
             {
               "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Faction Icon",
-              "mdFile": "Faction-Icon-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": " profile page — 3 tags documented."
-            },
-            {
-              "type": "text",
-              "value": ", "
+              "value": "New "
             },
             {
               "type": "link",
@@ -242,54 +36,6 @@
             {
               "type": "text",
               "value": " profile page — 24 tags documented."
-            },
-            {
-              "type": "text",
-              "value": ", and "
-            },
-            {
-              "type": "link",
-              "title": "Prefab Gravity",
-              "mdFile": "Prefab-Gravity-Profile.md"
-            },
-            {
-              "type": "text",
-              "value": " profile page — 3 tags documented."
-            },
-            {
-              "type": "text",
-              "value": ", and 4 more profile pages."
-            }
-          ]
-        },
-        {
-          "segments": [
-            {
-              "type": "link",
-              "title": "Action",
-              "mdFile": "Action.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Condition",
-              "mdFile": "Condition.md"
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "link",
-              "title": "Event Action",
-              "mdFile": "Event-Action.md"
-            },
-            {
-              "type": "text",
-              "value": ", and 13 more pages — 567 new tags documented."
             }
           ]
         },
@@ -297,7 +43,75 @@
           "segments": [
             {
               "type": "text",
-              "value": "Sidebar navigation updated for new profile pages."
+              "value": "New "
+            },
+            {
+              "type": "link",
+              "title": "Safezone",
+              "mdFile": "Safezone-Profile.md"
+            },
+            {
+              "type": "text",
+              "value": " profile page — 18 tags documented."
+            }
+          ]
+        },
+        {
+          "segments": [
+            {
+              "type": "text",
+              "value": "New "
+            },
+            {
+              "type": "link",
+              "title": "Shipyard",
+              "mdFile": "Shipyard-Profile.md"
+            },
+            {
+              "type": "text",
+              "value": " profile page — 35 tags documented."
+            }
+          ]
+        },
+        {
+          "segments": [
+            {
+              "type": "text",
+              "value": "New "
+            },
+            {
+              "type": "link",
+              "title": "Store",
+              "mdFile": "Store-Profile.md"
+            },
+            {
+              "type": "text",
+              "value": " profile page — 12 tags documented."
+            }
+          ]
+        },
+        {
+          "segments": [
+            {
+              "type": "text",
+              "value": "New "
+            },
+            {
+              "type": "link",
+              "title": "Suit Upgrades",
+              "mdFile": "Suit-Upgrades-Profile.md"
+            },
+            {
+              "type": "text",
+              "value": " profile page — 7 tags documented."
+            }
+          ]
+        },
+        {
+          "segments": [
+            {
+              "type": "text",
+              "value": "Economy & Station Blocks and Suit Upgrades profile pages added under Modding."
             }
           ]
         }

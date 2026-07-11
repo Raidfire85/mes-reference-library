@@ -2,6 +2,13 @@
 
 All notable changes to the MES Reference Library extension are documented here.
 
+## [3.19.3] - 2026-07-12
+
+### Changed
+
+- Rebuilt bundled wiki from latest [MES-WebWiki](https://github.com/Raidfire85/MES-WebWiki), including enum/vector allowed values and tag table updates across Autopilot, Spawn Conditions, Core Behavior, Command, Target, Trigger, Weapons, and related pages.
+- Refreshed vendored sync modules from [MES-WebWiki-Sync](https://github.com/Raidfire85/MES-WebWiki-Sync).
+
 ## [3.19.2] - 2026-07-12
 
 ### Fixed
