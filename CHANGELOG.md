@@ -2,6 +2,13 @@
 
 All notable changes to the MES Reference Library extension are documented here.
 
+## [3.19.1] - 2026-07-12
+
+### Fixed
+
+- Marketplace icon now uses a white portrait on a steel-blue background so it displays correctly on the Open VSX Registry (previous black-on-transparent icon was invisible on dark gallery pages).
+- Extension icon moved to root `icon.png` for Open VSX compatibility.
+
 ## [3.19.0] - 2026-07-12
 
 ### Changed

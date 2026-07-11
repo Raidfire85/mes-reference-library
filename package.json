@@ -2,7 +2,7 @@
   "name": "mes-reference-library",
   "displayName": "MES Reference Library",
   "description": "Unofficial MES/RivalAI modding tool for Space Engineers. Offline community wiki (~80+ pages) with search and bookmarks. Validates .sbc files: profile headers, tags, cross-file references, and mod reports. Optional GitHub sync updates wiki from MES-WebWiki and validator tags from MES source. Works fully offline after install. Not affiliated with MeridiusIX.",
-  "version": "3.19.0",
+  "version": "3.19.1",
   "publisher": "Raidfire",
   "license": "MIT",
   "repository": {
@@ -13,7 +13,11 @@
     "url": "https://github.com/Raidfire85/MES-Reference-Library/issues"
   },
   "homepage": "https://github.com/Raidfire85/MES-Reference-Library#readme",
-  "icon": "media/icon.png",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1E486E",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -189,7 +193,7 @@
   },
   "scripts": {
     "vendor-sync": "node ./scripts/vendor-sync.mjs",
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run generate-icons && npm run compile",
     "compile": "npm run vendor-sync && tsc -p ./ && node ./scripts/build-wiki-from-md.mjs",
     "watch": "tsc -watch -p ./",
     "build-vsix": "powershell -ExecutionPolicy Bypass -File ./scripts/archive-old-vsix.ps1 && node --disable-warning=DEP0040 --disable-warning=DEP0169 ./node_modules/@vscode/vsce/vsce package --allow-missing-repository",

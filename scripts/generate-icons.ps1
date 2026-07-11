@@ -1,13 +1,15 @@
 # Generates extension icons from media/MeridiousIcon.jpg (MES helmet portrait).
-# - icon.png: original black portrait (transparent background)
+# - icon.png (root + media): marketplace icon with solid background (visible on Open VSX dark UI)
 # - activitybar.svg: single-color silhouette with fill="currentColor" (VS/Cursor tint per theme)
 $ErrorActionPreference = 'Stop'
 
 Add-Type -AssemblyName System.Drawing
 
-$mediaDir = Join-Path (Join-Path $PSScriptRoot '..') 'media'
+$repoRoot = Join-Path $PSScriptRoot '..'
+$mediaDir = Join-Path $repoRoot 'media'
 $sourcePath = Join-Path $mediaDir 'MeridiousIcon.jpg'
-$iconPath = Join-Path $mediaDir 'icon.png'
+$mediaIconPath = Join-Path $mediaDir 'icon.png'
+$rootIconPath = Join-Path $repoRoot 'icon.png'
 $activitySvgPath = Join-Path $mediaDir 'activitybar.svg'
 
 if (-not (Test-Path $sourcePath)) {
@@ -49,6 +51,31 @@ function Test-MaskPixel($bmp, $x, $y) {
     return $bmp.GetPixel($x, $y).A -gt 64
 }
 
+function New-MarketplaceIcon([int]$size) {
+    $mask = New-PortraitMask 96
+    $bmp = New-Object System.Drawing.Bitmap -ArgumentList @($size, $size)
+    $g = [System.Drawing.Graphics]::FromImage($bmp)
+    $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
+    $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+    $g.Clear([System.Drawing.Color]::FromArgb(255, 30, 72, 110))
+
+    $pad = 16
+    $drawSize = $size - (2 * $pad)
+    for ($y = 0; $y -lt $drawSize; $y++) {
+        for ($x = 0; $x -lt $drawSize; $x++) {
+            $sx = [int]($x * $mask.Width / $drawSize)
+            $sy = [int]($y * $mask.Height / $drawSize)
+            if (Test-MaskPixel $mask $sx $sy) {
+                $bmp.SetPixel($x + $pad, $y + $pad, [System.Drawing.Color]::White)
+            }
+        }
+    }
+
+    $mask.Dispose()
+    $g.Dispose()
+    return $bmp
+}
+
 function Export-ActivityBarSvg([int]$size, [string]$path) {
     $mask = New-PortraitMask $size
     $rects = New-Object System.Collections.Generic.List[string]
@@ -70,7 +97,6 @@ function Export-ActivityBarSvg([int]$size, [string]$path) {
   </g>
 </svg>
 "@
-
     [System.IO.File]::WriteAllText($path, $svg, [System.Text.UTF8Encoding]::new($false))
 }
 
@@ -79,8 +105,10 @@ function Save-Png($bitmap, $path) {
     $bitmap.Dispose()
 }
 
-Save-Png (New-PortraitMask 128) $iconPath
+$marketplaceIcon = New-MarketplaceIcon 128
+Save-Png $marketplaceIcon $mediaIconPath
+Copy-Item -Path $mediaIconPath -Destination $rootIconPath -Force
 Export-ActivityBarSvg 24 $activitySvgPath
 
-Write-Host "Wrote $iconPath (marketplace: black portrait, transparent background)"
+Write-Host "Wrote $mediaIconPath and $rootIconPath (marketplace: white portrait on steel-blue background)"
 Write-Host "Wrote $activitySvgPath (activity bar: currentColor, theme-tinted by VS Code/Cursor)"
