@@ -3,6 +3,38 @@
   "runs": [
     {
       "date": "2026-07-11",
+      "source": "MES master branch",
+      "highlights": [
+        {
+          "segments": [
+            {
+              "type": "link",
+              "title": "Faction Icon",
+              "mdFile": "Faction-Icon-Profile.md"
+            },
+            {
+              "type": "text",
+              "value": " — 3 new tags documented."
+            }
+          ]
+        },
+        {
+          "segments": [
+            {
+              "type": "link",
+              "title": "Safezone",
+              "mdFile": "Safezone-Profile.md"
+            },
+            {
+              "type": "text",
+              "value": " — 18 new tags documented."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-07-11",
       "source": "GitHub master",
       "highlights": [
         {
