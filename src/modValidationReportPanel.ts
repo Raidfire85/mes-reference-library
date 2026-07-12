@@ -333,7 +333,7 @@ export class ModValidationReportPanel implements vscode.Disposable {
 </head>
 <body>
   <h1>MES Mod Validation Report</h1>
-  <p class="meta">${escapeHtml(report.modName)} · ${escapeHtml(report.scopeLabel)} · ${generated}</p>
+  <p class="meta">${escapeHtml(report.modName)} · ${escapeHtml(report.scopeLabel)} · MES Reference Library v${escapeHtml(report.extensionVersion)} · ${generated}</p>
   <div class="summary ${summaryClass}">
     <strong>${summaryText}</strong>
     <div class="stats">

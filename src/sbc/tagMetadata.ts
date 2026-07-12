@@ -62,18 +62,15 @@ export function parseTagMetadataFromWiki(html: string, wikiFile: string): Map<st
       continue;
     }
 
-    const allowedHtml = extractTableCell(tableHtml, 'Allowed Values:');
+    const allowedHtml = extractAllowedValuesHtml(tableHtml);
     if (!allowedHtml) {
       continue;
     }
 
     const descriptionHtml = extractTableCell(tableHtml, 'Description:');
-    const defaultValueHtml = extractTableCell(tableHtml, 'Default Value(s):');
+    const defaultValueHtml = extractDefaultValuesHtml(tableHtml);
 
-    const multipleAllowed = extractTableCell(tableHtml, 'Multiple Tag Allowed:')
-      ?.replace(/<[^>]+>/g, '')
-      .trim()
-      .toLowerCase() === 'yes';
+    const multipleAllowed = extractMultipleTagAllowed(tableHtml);
 
     let valueSpec = parseAllowedValues(allowedHtml);
     if (mentionsMinusOneInWikiContext(descriptionHtml, defaultValueHtml, allowedHtml)) {
@@ -147,6 +144,27 @@ function extractTableCell(tableHtml: string, label: string): string | null {
     'i'
   );
   return tableHtml.match(pattern)?.[1] ?? null;
+}
+
+function extractAllowedValuesHtml(tableHtml: string): string | null {
+  return (
+    extractTableCell(tableHtml, 'Allowed Values:') ??
+    extractTableCell(tableHtml, 'Allowed Value(s):')
+  );
+}
+
+function extractDefaultValuesHtml(tableHtml: string): string | null {
+  return (
+    extractTableCell(tableHtml, 'Default Value(s):') ??
+    extractTableCell(tableHtml, 'Default Values:')
+  );
+}
+
+function extractMultipleTagAllowed(tableHtml: string): boolean {
+  const raw =
+    extractTableCell(tableHtml, 'Multiple Tag Allowed:') ??
+    extractTableCell(tableHtml, 'Multiple Tags Allowed:');
+  return raw?.replace(/<[^>]+>/g, '').trim().toLowerCase() === 'yes';
 }
 
 function parseAllowedValues(allowedHtml: string): TagValueSpec {

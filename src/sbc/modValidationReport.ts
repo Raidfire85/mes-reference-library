@@ -59,6 +59,7 @@ export interface ModValidationReport {
   filesWithIssues: ModValidationFileResult[];
   crossFileDuplicates: CrossFileDuplicateSubtype[];
   generatedAt: string;
+  extensionVersion: string;
 }
 
 export function findCrossFileDuplicateSubtypes(
@@ -146,7 +147,8 @@ export async function buildModValidationReport(
   registry: TagRegistry,
   profileTagIndex: ProfileTagIndex | null,
   openFileCount: number,
-  skippedOversizedFiles: Array<{ relativePath: string; sizeLabel: string }> = []
+  skippedOversizedFiles: Array<{ relativePath: string; sizeLabel: string }> = [],
+  extensionVersion = 'unknown'
 ): Promise<ModValidationReport> {
   const sources = new Map<string, string>();
   for (const filePath of filePaths) {
@@ -267,6 +269,7 @@ export async function buildModValidationReport(
     filesWithIssues,
     crossFileDuplicates,
     generatedAt: new Date().toISOString(),
+    extensionVersion,
   };
 }
 

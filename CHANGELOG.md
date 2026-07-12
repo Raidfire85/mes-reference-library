@@ -2,6 +2,17 @@
 
 All notable changes to the MES Reference Library extension are documented here.
 
+## [3.19.6] - 2026-07-12
+
+### Fixed
+
+- Wiki tag metadata parsing now accepts both `Allowed Values:` and `Allowed Value(s):` table labels (synced WebWiki uses the latter).
+- Also accepts `Multiple Tags Allowed:` alongside `Multiple Tag Allowed:`.
+
+### Changed
+
+- Mod validation report header now shows the running extension version (e.g. `MES Reference Library v3.19.6`) so you can confirm which build validated your mod.
+
 ## [3.19.5] - 2026-07-12
 
 ### Fixed

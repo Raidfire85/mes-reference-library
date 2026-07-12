@@ -211,7 +211,8 @@ export class SbcValidatorService implements vscode.Disposable {
       registry,
       profileTagIndex,
       openFileCount,
-      skippedOversizedFiles
+      skippedOversizedFiles,
+      await this.getExtensionVersion()
     );
 
     for (const file of report.filesWithIssues) {
@@ -381,6 +382,15 @@ export class SbcValidatorService implements vscode.Disposable {
     skippedOversizedFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 
     return { filePaths, fileContents, openFileCount, skippedOversizedFiles };
+  }
+
+  private async getExtensionVersion(): Promise<string> {
+    try {
+      const raw = await fs.readFile(path.join(this.extensionUri.fsPath, 'package.json'), 'utf8');
+      return JSON.parse(raw).version ?? 'unknown';
+    } catch {
+      return 'unknown';
+    }
   }
 
   invalidateRegistry(): void {
